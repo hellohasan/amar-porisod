@@ -50,9 +50,9 @@
 			<p class="mt-3 mb-1">
 				<router-link :to="{name:'login'}">Login</router-link>
 			</p>
-			<p class="mb-0">
+			<!-- <p class="mb-0">
 				<router-link :to="{name:'register'}" class="text-center">Register a new membership</router-link>
-			</p>
+			</p> -->
 		</div>
 		<!-- /.login-card-body -->
 	</div>

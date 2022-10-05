@@ -52,9 +52,9 @@
 			<p class="mb-1">
 				<router-link :to="{name:'forget-password'}">I forgot my password</router-link>
 			</p>
-			<p class="mb-0">
+			<!-- <p class="mb-0">
 				<router-link :to="{name:'register'}" class="text-center">Create a new account</router-link>
-			</p>
+			</p> -->
 		</div>
 		<!-- /.card-body -->
 	</div>

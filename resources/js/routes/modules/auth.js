@@ -7,14 +7,14 @@ export default [
       title: "Login",
     },
   },
-  {
+  /* {
     path: "/register",
     component: require("../../components/Auth/Register").default,
     name: "register",
     meta: {
       title: "Register",
     },
-  },
+  }, */
   {
     path: "/forget-password",
     component: require("../../components/Auth/Forget").default,

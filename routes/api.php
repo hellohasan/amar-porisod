@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Api\Auth\ForgetPasswordController;
 use App\Http\Controllers\Api\Auth\LoginController;
-use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\Settings\BasicSettingController;
@@ -27,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
     Route::post('login', [LoginController::class, 'login']);
-    Route::post('register', [RegisterController::class, 'register']);
+    /* Route::post('register', [RegisterController::class, 'register']); */
     Route::post('logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
 
     Route::post('forget-password', [ForgetPasswordController::class, 'sendPasswordResetLink']); // Send reset password mail
