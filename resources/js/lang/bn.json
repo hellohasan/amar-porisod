@@ -184,5 +184,13 @@
     "dataTableSortAscending": ": কলাম উর্দ্ধক্রমানুসারে সাজানো হচ্ছে",
     "dataTableSortDescending": ": কলাম অধঃক্রম সাজানো হচ্ছে",
     "Select": "নির্বাচন করুন",
-    "NoRecordFound": "দুঃখিত, কোন রেকর্ড নেই।"
+    "NoRecordFound": "দুঃখিত, কোন রেকর্ড নেই।",
+    "CustomNew": "নতুন {name} যুক্ত করুন",
+    "CustomUpdate": "{name} হালনাগাদ করুন",
+    "Status": "স্ট্যাটাস",
+    "WardList": "ওয়ার্ড তালিকা",
+    "Ward": "ওয়ার্ড",
+    "Area": "এলাকা",
+    "WardNumber": "ওয়ার্ড নম্বর",
+    "AddNow": "যুক্ত করুন"
 }

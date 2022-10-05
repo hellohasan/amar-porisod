@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Card from "./Card";
+import CardButton from "./CardButton";
 import VButton from "./Button";
 import CustomCard from "./CustomCard";
 import Form from "vform";
@@ -11,6 +12,7 @@ import FormGroupToggle from "./FormGroupToggle";
 import FormGroupTextarea from "./FormGroupTextarea";
 import FormGroupImage from "./FormGroupImage";
 import FormGroupSelectMultiple from "./FormGroupSelectMultiple";
+import FormModalCreateEdit from "./FormModalCreateEdit";
 import Errors from "./Errors";
 import VueElementLoading from "vue-element-loading";
 
@@ -23,6 +25,7 @@ import {
 window.Form = Form;
 [
   Card,
+  CardButton,
   VButton,
   CustomCard,
   Errors,
@@ -34,6 +37,7 @@ window.Form = Form;
   FormGroupToggle,
   FormGroupImage,
   FormGroupSelectMultiple,
+  FormModalCreateEdit,
   HasError,
   AlertError,
   AlertErrors,

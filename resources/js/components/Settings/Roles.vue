@@ -3,9 +3,9 @@
 		<div class="col-12">
 			<div class="card">
 				<div class="card-header">
-					<h3 class="card-title">{{ $t('Manage Role') }}</h3>
+					<h3 class="card-title font-weight-bold">{{ $t('Manage Role') }}</h3>
 					<div class="card-tools" v-permission="['role-create']">
-						<button class="btn btn-success" @click="openRoleModal"><i class="fas fa-plus fa-w"></i>
+						<button class="btn btn-success btn-sm" @click="openRoleModal"><i class="fas fa-plus fa-w"></i>
 							{{ $t('Add New') }}
 						</button>
 					</div>
@@ -22,7 +22,7 @@
 						</thead>
 						<tbody>
 							<tr v-for="(role, index) in roles" :key="role.id">
-								<td>{{ role.id }}</td>
+								<td>{{ ++index }}</td>
 								<td>{{ role.name | removeDash | capitalize }}</td>
 								<td>
 									<button v-permission="['role-edit']" class="btn btn-primary btn-sm" v-if="index" @click="editRole(role)"><i class="far fa-edit"></i> {{ $t('Edit') }}</button>

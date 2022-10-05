@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Settings\PermissionController;
 use App\Http\Controllers\Api\Settings\RoleController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\V1\SelectDropdownController;
+use App\Http\Controllers\Api\V1\WardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -55,6 +56,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('basic-setting', [BasicSettingController::class, 'getBasicSetting']);
     Route::post('basic-setting-submit', [BasicSettingController::class, 'submitBasicSetting']);
+
+    /* ward route list */
+
+    Route::apiResource('wards', WardController::class)->except(['show']);
 
     Route::get('load-division-districts/{id}', [SelectDropdownController::class, 'loadDivisionDistricts']);
     Route::get('load-district-upazilas/{id}', [SelectDropdownController::class, 'loadDistrictUpazilas']);

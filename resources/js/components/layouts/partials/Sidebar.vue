@@ -28,6 +28,9 @@
 						</router-link>
 					</li>
 
+					<!-- Basic Setting -->
+					<Basic></Basic>
+
 					<!-- Settings Section -->
 					<li v-role="['Super Admin','Admin','Register']" class="nav-header">{{ $t('GeneralSettings') }}</li>
 
@@ -69,7 +72,6 @@
 							<p>{{ $t('ManageUsers') }}</p>
 						</router-link>
 					</li>
-
 					<li v-role="['Super Admin']" class="nav-item has-treeview">
 						<a href="#!" class="nav-link">
 							<i class="nav-icon fas fa-tools"></i>
@@ -97,7 +99,6 @@
 							<p>{{ $t('Profile') }}</p>
 						</router-link>
 					</li>
-
 					<li class="nav-item">
 						<a href="#" @click.prevent="logoutHandel" class="nav-link">
 							<i class="nav-icon fas fa-sign-out-alt yellow"></i>
@@ -115,10 +116,12 @@
 <script>
 	import { mapGetters } from 'vuex'
 	import logoutMix from '../../../mixins/logout'
+	import Basic from './Menu/Basic.vue';
 	export default {
 		name: 'Sidebar',
 		mixins: [logoutMix],
 		components: {
+			Basic
 		},
 		computed: {
 			...mapGetters({

@@ -184,5 +184,13 @@
     "dataTableSortAscending": ": activate to sort column ascending",
     "dataTableSortDescending": ": activate to sort column descending",
     "Select": "Select",
-    "NoRecordFound": "Opps.. No Record Found."
+    "NoRecordFound": "Opps.. No Record Found.",
+    "CustomNew": "Add New {name}",
+    "CustomUpdate": "Update {name}",
+    "Status": "Status",
+    "WardList": "Ward List",
+    "Ward": "Ward",
+    "Area": "Area",
+    "WardNumber": "Ward Number",
+    "AddNow": "Add Now"
 }
