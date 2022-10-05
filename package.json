@@ -40,6 +40,7 @@
         "number-to-words": "^1.2.4",
         "pdfmake": "^0.2.5",
         "sweetalert2": "^11.4.4",
+        "v-mask": "^2.3.0",
         "validatorjs": "^3.22.1",
         "vform": "^2.1.2",
         "vue-chartkick": "^0.6.1",

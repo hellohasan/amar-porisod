@@ -192,5 +192,11 @@
     "Ward": "ওয়ার্ড",
     "Area": "এলাকা",
     "WardNumber": "ওয়ার্ড নম্বর",
-    "AddNow": "যুক্ত করুন"
+    "AddNow": "যুক্ত করুন",
+    "Recommender": "সুপারিশকারী",
+    "TotalRecommendation": "মোট সুপারিশ",
+    "SelectWardNumber": "ওয়ার্ড নম্বর নির্বাচন করুন",
+    "SelectRole": "ভূমিকা নির্বাচন করুন",
+    "Photo": "ছবি",
+    "Password": "পাসওয়ার্ড"
 }

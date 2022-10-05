@@ -192,5 +192,11 @@
     "Ward": "Ward",
     "Area": "Area",
     "WardNumber": "Ward Number",
-    "AddNow": "Add Now"
+    "AddNow": "Add Now",
+    "Recommender": "Recommender List",
+    "TotalRecommendation": "Total Recommendation",
+    "SelectWardNumber": "Select Ward Number",
+    "SelectRole": "Select Role",
+    "Photo": "Photo",
+    "Password": "Password"
 }

@@ -103,7 +103,8 @@ Vue.filter("numberConversion", function (data) {
   if (store.state.lang === "en") {
     return data;
   } else if (store.state.lang === "bn") {
-    return this.toBangla(data);
+    const toBn = (n) => n.toString().replace(/\d/g, (d) => "০১২৩৪৫৬৭৮৯"[d]);
+    return toBn(data);
   }
   return "";
 });

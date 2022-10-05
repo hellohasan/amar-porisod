@@ -1,6 +1,6 @@
 <template>
 	<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-dialog modal-dialog-centered" :class="{'modal-lg': largeModal}">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="myModalLabel" v-if="editMode"><i class="fas fa-edit"></i> {{ $t('CustomUpdate',{name:$t(title)}) }}</h5>
@@ -19,7 +19,6 @@
 						<button :disabled="form.busy" type="submit" class="btn btn-primary">
 							<template v-if="editMode"><i class="fas fa-paper-plane"></i> {{ $t('Update') }}</template>
 							<template v-else><i class="fas fa-plus"></i> {{ $t('AddNow') }}</template>
-
 						</button>
 					</div>
 				</form>
@@ -44,6 +43,10 @@
 			title: {
 				type: String,
 				require: true
+			},
+			largeModal: {
+				type: Boolean,
+				default: true
 			}
 		},
 		methods: {

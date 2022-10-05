@@ -18,8 +18,8 @@
 				</thead>
 				<tbody>
 					<template v-if="wards.length">
-						<tr v-for="(ward,index) in wards" :key="index">
-							<td>{{ ++index }}</td>
+						<tr v-for="(ward,index) in wards" :key="index" :class="{'bg-warning': !ward.status}">
+							<td>{{ ++index | numberConversion}}</td>
 							<td>{{ ward.name }}</td>
 							<td>{{ ward.area }}</td>
 							<td>
@@ -40,7 +40,7 @@
 		</div>
 
 		<!-- Modal -->
-		<form-modal-create-edit ref="modal" @storeData="storeWard" @updateData="updateWard" title="Ward" :form="form">
+		<form-modal-create-edit @storeData="storeWard" @updateData="updateWard" title="Ward" :form="form">
 			<form-group-input :form="form" v-model="form.name" name="name" :label="$t('WardNumber')"></form-group-input>
 			<form-group-input :form="form" v-model="form.area" name="area" :label="$t('Area')"></form-group-input>
 			<form-group-toggle :form="form" v-model="form.status" id="status" :label="$t('Status')"></form-group-toggle>

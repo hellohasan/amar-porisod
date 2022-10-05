@@ -1,4 +1,5 @@
 import Vue from "vue";
+import Badge from "./Badge";
 import Card from "./Card";
 import CardButton from "./CardButton";
 import VButton from "./Button";
@@ -25,6 +26,7 @@ import {
 window.Form = Form;
 [
   Card,
+  Badge,
   CardButton,
   VButton,
   CustomCard,

@@ -40,7 +40,8 @@ import VueHtmlToPaper from "vue-html-to-paper";
 import paperOption from "./helpers/html-to-paper";
 Vue.use(VueHtmlToPaper, paperOption);
 
-window.Fire = new Vue();
+import VueMask from "v-mask";
+Vue.use(VueMask);
 
 const router = new VueRouter({
   routes,

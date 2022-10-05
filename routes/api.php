@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Settings\LanguageSettingController;
 use App\Http\Controllers\Api\Settings\PermissionController;
 use App\Http\Controllers\Api\Settings\RoleController;
 use App\Http\Controllers\Api\User\UserController;
+use App\Http\Controllers\Api\V1\RecommenderController;
 use App\Http\Controllers\Api\V1\SelectDropdownController;
 use App\Http\Controllers\Api\V1\WardController;
 use Illuminate\Http\Request;
@@ -58,8 +59,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('basic-setting-submit', [BasicSettingController::class, 'submitBasicSetting']);
 
     /* ward route list */
-
     Route::apiResource('wards', WardController::class)->except(['show']);
+
+    /* Recommender Route List */
+    Route::get('recommenders/int', [RecommenderController::class, 'init']);
+    Route::apiResource('recommenders', RecommenderController::class)->except(['show']);
 
     Route::get('load-division-districts/{id}', [SelectDropdownController::class, 'loadDivisionDistricts']);
     Route::get('load-district-upazilas/{id}', [SelectDropdownController::class, 'loadDistrictUpazilas']);

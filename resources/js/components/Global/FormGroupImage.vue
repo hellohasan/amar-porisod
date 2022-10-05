@@ -59,8 +59,8 @@
 				default: 200,
 			},
 		},
-		mounted() {
 
+		mounted() {
 			$(function () {
 				$(".image-preview-filename").val('No file chosen');
 				// Set the popover default content
@@ -78,6 +78,13 @@
 			return {
 				setImage: null,
 			}
+		},
+		watch: {
+			value: function (value) {
+				if (value == null) {
+					this.previewClear()
+				}
+			},
 		},
 		methods: {
 			onSelectFile(e) {
