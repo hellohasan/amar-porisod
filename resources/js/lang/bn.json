@@ -205,5 +205,12 @@
     "BeneficiaryNID": "সুবিধাভোগীর এনআইডি",
     "BeneficiaryName": "সুবিধাভোগীর নাম",
     "BeneficiaryPhone": "সুবিধাভোগীর মোবাইল নম্বর",
-    "CreatedAt": "তৈরীর তারিখ"
+    "CreatedAt": "তৈরীর তারিখ",
+    "Project": "প্রকল্প",
+    "Projects": "প্রকল্পের তালিকা",
+    "ProjectName": "প্রকল্পের নাম",
+    "ProjectDate": "প্রকল্পের তারিখ",
+    "ProjectInfo": "প্রকল্পের তথ্য",
+    "Recommenders": "সুপারিশকারী",
+    "TotalBeneficiary": "মোট সুবিধাভোগী"
 }

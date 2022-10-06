@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Beneficiary;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +16,7 @@ class BeneficiaryController extends Controller
     {
         $this->middleware('permission:beneficiaries', ['only' => ['index']]);
         $this->middleware('permission:beneficiaries-store', ['only' => ['store']]);
+        $this->middleware('permission:beneficiaries-edit', ['only' => ['edit']]);
         $this->middleware('permission:beneficiaries-update', ['only' => ['update']]);
     }
 
@@ -25,10 +27,10 @@ class BeneficiaryController extends Controller
      */
     public function index()
     {
-        $data = Beneficiary::select(['*', DB::raw("CONCAT(name,' - ',phone) as custom_name")])
-            ->with([
-                'ward:id,name',
-            ]);
+        $user = Auth::user();
+        $data = Beneficiary::select(['*', DB::raw("CONCAT(name,' - ',phone) as custom_name")])->with([
+            'ward:id,name',
+        ]);
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -60,9 +62,14 @@ class BeneficiaryController extends Controller
             ->setRowClass(function ($row) {
                 return !$row->status ? 'bg-danger' : '';
             })
-            ->addColumn('action', function ($row) {
-                $btn = '<button type="button" data-id="' . $row->id . '" data-action="edit" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></button>&nbsp;';
-                $btn .= '<button type="button" data-id="' . $row->id . '" data-action="delete" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>';
+            ->addColumn('action', function ($row) use ($user) {
+                $btn = '';
+                if ($user->hasPermissionTo('beneficiaries-edit')) {
+                    $btn .= '<button type="button" data-id="' . $row->id . '" data-action="edit" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></button>&nbsp;';
+                }
+                if ($user->hasPermissionTo('beneficiaries-destroy')) {
+                    $btn .= '<button type="button" data-id="' . $row->id . '" data-action="delete" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>';
+                }
                 return $btn;
             })
             ->rawColumns(['status', 'action'])

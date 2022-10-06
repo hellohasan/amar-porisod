@@ -205,5 +205,12 @@
     "BeneficiaryNID": "Beneficiary NID",
     "BeneficiaryName": "Beneficiary Name",
     "BeneficiaryPhone": "Beneficiary Phone",
-    "CreatedAt": "Created At"
+    "CreatedAt": "Created At",
+    "Project": "Project",
+    "Projects": "Projects",
+    "ProjectName": "Project Name",
+    "ProjectDate": "Project Date",
+    "TotalBeneficiary": "Total Beneficiary",
+    "ProjectInfo": "Project Info",
+    "Recommenders": "Recommenders"
 }

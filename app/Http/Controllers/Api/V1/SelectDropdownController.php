@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Recommender;
 use App\Models\Ward;
 use Devfaysal\BangladeshGeocode\Models\District;
 use Devfaysal\BangladeshGeocode\Models\Union;
@@ -18,6 +19,22 @@ class SelectDropdownController extends Controller
     public function loadWardList()
     {
         return Ward::whereStatus(true)->select(['id', 'name as text'])->get();
+    }
+
+    public function loadRecommenderList()
+    {
+        $recommenders = Recommender::with([
+            'ward:id,name',
+            'user:id,name',
+        ])->whereStatus(true)->get();
+        $res = [];
+        foreach ($recommenders as $recommender) {
+            $res[] = [
+                'id'   => $recommender->id,
+                'text' => '(' . $recommender->ward->name . ') ' . $recommender->user->name,
+            ];
+        }
+        return response()->json($res, 200);
     }
 
     /**

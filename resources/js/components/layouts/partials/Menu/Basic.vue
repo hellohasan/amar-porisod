@@ -3,6 +3,13 @@
 
 		<li v-role="['Super Admin','Chairman','Secretary']" class="nav-header">{{ $t('BasicSetting') }}</li>
 
+		<li v-permission="['projects']" class="nav-item">
+			<router-link to="/projects" class="nav-link">
+				<i class="nav-icon fas fa-layer-group cyan"></i>
+				<p>{{ $t('Projects') }}</p>
+			</router-link>
+		</li>
+
 		<li v-permission="['beneficiaries']" class="nav-item">
 			<router-link to="/beneficiaries" class="nav-link">
 				<i class="nav-icon fas fa-users cyan"></i>
