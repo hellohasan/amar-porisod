@@ -26,7 +26,7 @@
 								<td>{{ role.name | removeDash | capitalize }}</td>
 								<td>
 									<button v-permission="['role-edit']" class="btn btn-primary btn-sm" v-if="index" @click="editRole(role)"><i class="far fa-edit"></i> {{ $t('Edit') }}</button>
-									<button v-if="role.id != 1" class="btn btn-danger btn-sm" @click="deleteRole(role.id)"><i class="fas fa-trash"></i> {{ $t('Delete') }}</button>
+									<button v-permission="['role-delete']" v-if="role.id != 1" class="btn btn-danger btn-sm" @click="deleteRole(role.id)"><i class="fas fa-trash"></i> {{ $t('Delete') }}</button>
 								</td>
 							</tr>
 						</tbody>

@@ -203,3 +203,8 @@ body {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.vertical-cell td,
+.vertical-cell th {
+  vertical-align: middle;
+}

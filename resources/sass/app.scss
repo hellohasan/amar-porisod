@@ -52,3 +52,10 @@ body{
 .cursor-pointer{
     cursor: pointer;
 }
+
+.vertical-cell {
+    td,
+    th {
+        vertical-align: middle;
+    }
+}

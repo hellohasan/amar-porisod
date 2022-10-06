@@ -71,7 +71,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::resource('beneficiaries', BeneficiaryController::class)->except(['create', 'show']);
 
     /* Project Route List */
-    Route::resource('projects', ProjectController::class);
+    Route::resource('projects', ProjectController::class)->except(['create']);
 
     Route::get('load-division-districts/{id}', [SelectDropdownController::class, 'loadDivisionDistricts']);
     Route::get('load-district-upazilas/{id}', [SelectDropdownController::class, 'loadDistrictUpazilas']);

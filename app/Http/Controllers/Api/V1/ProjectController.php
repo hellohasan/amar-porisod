@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -14,17 +15,11 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Project::with([
+            'recommenders:id,project_id,recommender_id',
+            'recommenders.recommender:id,user_id',
+            'recommenders.recommender.user:id,name',
+        ])->orderByDesc('id')->get();
     }
 
     /**
@@ -35,7 +30,23 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'           => 'required',
+            'date'           => 'required|date_format:Y-m-d',
+            'total'          => 'required|numeric',
+            'recommenders'   => 'required|array',
+            'recommenders.*' => 'required|numeric',
+        ]);
+
+        $in = $request->except(['recommenders']);
+        $project = Project::create($in);
+        foreach ($request->recommenders as $recommender) {
+            $project->recommenders()->create([
+                'recommender_id' => $recommender,
+            ]);
+        }
+        return response()->json(['message' => 'done'], 200);
+
     }
 
     /**

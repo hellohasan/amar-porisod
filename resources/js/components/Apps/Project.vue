@@ -10,7 +10,7 @@
 				<thead>
 					<tr>
 						<th>{{ $t('SL') }}</th>
-						<th>{{ $t('CreatedAt') }}</th>
+						<th>{{ $t('ProjectDate') }}</th>
 						<th>{{ $t('ProjectName') }}</th>
 						<th>{{ $t('ProjectInfo') }}</th>
 						<th>{{ $t('Recommenders') }}</th>
@@ -18,6 +18,24 @@
 						<th class="not-export-col">{{ $t('Action') }}</th>
 					</tr>
 				</thead>
+				<tbody>
+					<tr v-for="(project,index) in projects" :key="index">
+						<td>{{ ++index }}</td>
+						<td>{{ project.date }}</td>
+						<td>{{ project.name }}</td>
+						<td>{{ project.total | persons }}</td>
+						<td>
+							<p class="mb-0" v-for="(r,i) in project.recommenders" :key="i">{{ r.recommender.user.name }}</p>
+						</td>
+						<td>
+							<badge :status="project.status"></badge>
+						</td>
+						<td>
+							<button v-permission="['projects-edit']" class="btn btn-primary btn-sm" v-if="index" @click="editProject(project)"><i class="far fa-edit"></i> {{ $t('Edit') }}</button>
+							<button v-permission="['projects-destroy']" class="btn btn-danger btn-sm" @click="deleteProject(project.id)"><i class="fas fa-trash"></i> {{ $t('Delete') }}</button>
+						</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 		<form-modal-create-edit @storeData="storeProject" @updateData="updateProject" title="Project" :form="form">
@@ -39,7 +57,8 @@
 					name: '',
 					date: '',
 					total: '',
-					recommenders: []
+					recommenders: [],
+					status: true
 				}),
 				editMode: false,
 				editId: null,
@@ -53,16 +72,34 @@
 				this.editId = null;
 				this.openMyModal();
 			},
-			storeProject() {
-
+			async storeProject() {
+				await this.form.post('/api/projects').then((res) => {
+					this.successCreateMessage();
+					$('#myModal').modal('hide');
+					this.loadProjects();
+				}).catch((error) => console.log(error));
+			},
+			editProject(project) {
+				this.editMode = true;
+				this.editId = project.id;
+				this.openMyModal();
+				this.form.fill(project)
 			},
 			updateProject() {
+
+			},
+			deleteProject(id) {
 
 			},
 			openMyModal() {
 				this.form.clear();
 				this.form.reset();
 				this.$root.$emit('openCustomModal', this.editMode);
+			},
+			loadProjects() {
+				axios.get('/api/projects').then((res) => {
+					this.projects = res.data;
+				}).catch((error) => console.log(error));
 			},
 			loadRecommenders() {
 				axios.get('/api/load-recommenders-lists').then((res) => {
@@ -71,10 +108,17 @@
 			}
 		},
 		created() {
+			this.loadProjects();
 			this.loadRecommenders();
 		},
 	}
 </script>
 
 <style lang="scss" scoped>
+	#verticalTable {
+		td,
+		th {
+			vertical-align: middle;
+		}
+	}
 </style>
