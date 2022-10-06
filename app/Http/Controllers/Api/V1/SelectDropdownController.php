@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ward;
 use Devfaysal\BangladeshGeocode\Models\District;
 use Devfaysal\BangladeshGeocode\Models\Union;
 use Devfaysal\BangladeshGeocode\Models\Upazila;
@@ -12,6 +13,11 @@ class SelectDropdownController extends Controller
     public function __construct()
     {
         $this->middleware('auth:sanctum');
+    }
+
+    public function loadWardList()
+    {
+        return Ward::whereStatus(true)->select(['id', 'name as text'])->get();
     }
 
     /**

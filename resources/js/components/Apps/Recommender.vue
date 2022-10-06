@@ -1,5 +1,5 @@
 <template>
-	<card-button :title="$t('Recommender')" icon="fas fa-globe">
+	<card-button :title="$t('Recommender')" icon="fas fas fa-user-shield">
 		<template v-slot:button>
 			<button v-permission="['recommenders-create']" class="btn btn-success btn-sm" @click="createRecommender"><i class="fas fa-plus fa-w"></i>
 				{{ $t('CustomNew',{name:$t('Recommender')}) }}
@@ -22,7 +22,7 @@
 				</thead>
 				<tbody>
 					<template v-if="recommenders.length">
-						<tr v-for="(recommender, index) in recommenders" :key="index" :class="{'bg-warning': !recommender.status}">
+						<tr v-for="(recommender, index) in recommenders" :key="index">
 							<td>{{ ++index | numberConversion }}</td>
 							<td>
 								<img :src="recommender.user.photo" class="img-thumbnail" alt="">
@@ -98,8 +98,6 @@
 				}).catch((error) => console.log(error));
 			},
 			editRecommender(recommender) {
-				this.form.clear();
-				this.form.reset();
 				this.editMode = true;
 				this.editId = recommender.id;
 				this.previousImg = recommender.user.photo;
@@ -120,6 +118,8 @@
 				}).catch((error) => console.log(error));
 			},
 			openMyModal() {
+				this.form.clear();
+				this.form.reset();
 				this.$root.$emit('openCustomModal', this.editMode);
 			},
 			loadInitData() {

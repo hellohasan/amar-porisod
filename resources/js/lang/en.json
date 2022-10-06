@@ -121,7 +121,7 @@
     "Post Office": "Post Office - (Code)",
     "Village": "Village/House",
     "Check_in_msg": "Check me out, If the Permanent and Present address is the same.",
-    "NID": "NID/Birth Certificate Number",
+    "NID": "NID",
     "sibling_msg": "You have any sibling in this institute?",
     "Yes": "Yes",
     "No": "No",
@@ -166,6 +166,7 @@
     "Created": "Created",
     "Complete": "Complete",
     "Show": "Show",
+    "Print": "Print",
     "Excel": "Excel",
     "PDF": "PDF",
     "Copy": "Copy",
@@ -198,5 +199,11 @@
     "SelectWardNumber": "Select Ward Number",
     "SelectRole": "Select Role",
     "Photo": "Photo",
-    "Password": "Password"
+    "Password": "Password",
+    "Beneficiary": "Beneficiary",
+    "TotalBenefit": "Total Benefit",
+    "BeneficiaryNID": "Beneficiary NID",
+    "BeneficiaryName": "Beneficiary Name",
+    "BeneficiaryPhone": "Beneficiary Phone",
+    "CreatedAt": "Created At"
 }

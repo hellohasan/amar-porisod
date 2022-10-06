@@ -15,9 +15,16 @@ use Spatie\Permission\Models\Role;
 class RecommenderController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('permission:recommenders', ['only' => ['index']]);
+        $this->middleware('permission:recommenders-store', ['only' => ['store']]);
+        $this->middleware('permission:recommenders-update', ['only' => ['update']]);
+    }
+
     public function init()
     {
-        $res['wards'] = Ward::whereStatus(true)->select(['id', 'name as text'])->get();
+        $res['wards'] = Ward::select(['id', 'name as text'])->get();
         $res['roles'] = Role::whereNot('id', 1)->select(['id', 'name as text'])->get();
         return response()->json($res, 200);
     }

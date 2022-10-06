@@ -126,6 +126,7 @@ Vue.mixin({
           serverSide: true,
           destroy: true,
           pageLength: 10,
+          order: [[0, "desc"]],
           ajax: {
             url: url,
             type: "GET",
@@ -172,7 +173,7 @@ Vue.mixin({
             },
             {
               extend: "colvis",
-              text: "<i class='fas fa-th-large'></i> " + this.$t("View"),
+              text: "<i class='fas fa-th-large'></i> " + this.$t("Column"),
               titleAttr: "Column visibility",
               className: "btn btn-success btn-sm text-white",
               exportOptions: {

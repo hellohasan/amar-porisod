@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Settings\LanguageSettingController;
 use App\Http\Controllers\Api\Settings\PermissionController;
 use App\Http\Controllers\Api\Settings\RoleController;
 use App\Http\Controllers\Api\User\UserController;
+use App\Http\Controllers\Api\V1\BeneficiaryController;
 use App\Http\Controllers\Api\V1\RecommenderController;
 use App\Http\Controllers\Api\V1\SelectDropdownController;
 use App\Http\Controllers\Api\V1\WardController;
@@ -65,9 +66,13 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('recommenders/int', [RecommenderController::class, 'init']);
     Route::apiResource('recommenders', RecommenderController::class)->except(['show']);
 
+    /* beneficiaries Route List */
+    Route::resource('beneficiaries', BeneficiaryController::class)->except(['create', 'show']);
+
     Route::get('load-division-districts/{id}', [SelectDropdownController::class, 'loadDivisionDistricts']);
     Route::get('load-district-upazilas/{id}', [SelectDropdownController::class, 'loadDistrictUpazilas']);
     Route::get('load-upazila-unions/{id}', [SelectDropdownController::class, 'loadUpazilaUnions']);
+    Route::get('load-ward-list', [SelectDropdownController::class, 'loadWardList']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

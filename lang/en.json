@@ -7,6 +7,7 @@
     "BDT": "BDT",
     "delete": "Delete",
     "show": "Show",
+    "edit": "Edit",
     "All": "All",
     "Salary": "Salary",
     "Credit": "Credit",
@@ -15,5 +16,7 @@
     "Pending": "Pending",
     "Activated": "Activated",
     "Deactivated": "Deactivated",
-    "NA": "N/A"
+    "NA": "N/A",
+    "Person": "Person",
+    "s": "'s"
 }
