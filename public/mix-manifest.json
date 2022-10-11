@@ -4,5 +4,8 @@
     "/js/dashboard/users.js": "/js/dashboard/users.js",
     "/js/dashboard/profile.js": "/js/dashboard/profile.js",
     "/js/settings/basic-setting.js": "/js/settings/basic-setting.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/project-beneficiaries.js": "/js/project-beneficiaries.js",
+    "/js/project-beneficiaries/index.js": "/js/project-beneficiaries/index.js",
+    "/js/project-beneficiaries/create.js": "/js/project-beneficiaries/create.js"
 }

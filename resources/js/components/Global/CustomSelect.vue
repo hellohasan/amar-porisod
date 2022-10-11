@@ -38,7 +38,7 @@
 			}
 		},
 		mounted: function () {
-			var vm = this
+			var vm = this;
 			$("#" + this.selectId)
 				// init select2
 				.select2({
@@ -51,7 +51,7 @@
 				.trigger('change')
 				// emit event on change.
 				.on('change', function () {
-					vm.$emit('input', this.value)
+					vm.$emit('input', this.value);
 				})
 
 		},
@@ -72,6 +72,7 @@
 			}
 		},
 		destroyed: function () {
+			this.$emit('input', '');
 			$("#" + this.selectId).empty().off().select2('destroy')
 		}
 	}

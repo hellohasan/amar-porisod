@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Project;
 use App\Models\Recommender;
 use App\Models\Ward;
 use Devfaysal\BangladeshGeocode\Models\District;
@@ -35,6 +36,11 @@ class SelectDropdownController extends Controller
             ];
         }
         return response()->json($res, 200);
+    }
+
+    public function loadProjectList()
+    {
+        return Project::whereStatus(true)->select(['id', 'name as text'])->get();
     }
 
     /**

@@ -212,5 +212,14 @@
     "ProjectDate": "Project Date",
     "TotalBeneficiary": "Total Beneficiary",
     "ProjectInfo": "Project Info",
-    "Recommenders": "Recommenders"
+    "Recommenders": "Recommenders",
+    "ProjectSetting": "Project Setting",
+    "ProjectBeneficiary": "Project Beneficiary",
+    "NewProjectBeneficiary": "New Project Beneficiary",
+    "Title": "Title",
+    "Description": "Description",
+    "BeneficiaryInformation": "Beneficiary Information",
+    "PreviousBenefit": "Previous Benefit",
+    "Approve": "Permit",
+    "Decline": "Decline"
 }

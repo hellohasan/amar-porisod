@@ -28,7 +28,7 @@
 			},
 			falseClass: {
 				type: String,
-				default: 'badge-danger'
+				default: 'badge-warning'
 			}
 		},
 	}

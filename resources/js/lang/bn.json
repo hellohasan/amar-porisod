@@ -212,5 +212,14 @@
     "ProjectDate": "প্রকল্পের তারিখ",
     "ProjectInfo": "প্রকল্পের তথ্য",
     "Recommenders": "সুপারিশকারী",
-    "TotalBeneficiary": "মোট সুবিধাভোগী"
+    "TotalBeneficiary": "মোট সুবিধাভোগী",
+    "ProjectSetting": "প্রজেক্ট সেটিং",
+    "ProjectBeneficiary": "প্রকল্প সুবিধাভোগী লিস্ট",
+    "NewProjectBeneficiary": "নতুন প্রকল্প সুবিধাভোগী",
+    "Title": "শিরোনাম",
+    "Description": "বিবরণ",
+    "BeneficiaryInformation": "সুবিধাভোগী তথ্য",
+    "PreviousBenefit": "আগের সুবিধা",
+    "Approve": "অনুমোদন",
+    "Decline": "প্রত্যাখ্যান"
 }

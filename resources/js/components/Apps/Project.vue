@@ -31,7 +31,7 @@
 							<badge :status="project.status"></badge>
 						</td>
 						<td>
-							<button v-permission="['projects-edit']" class="btn btn-primary btn-sm" v-if="index" @click="editProject(project)"><i class="far fa-edit"></i> {{ $t('Edit') }}</button>
+							<button v-permission="['projects-edit']" class="btn btn-primary btn-sm" v-if="index" @click="editProject(project.id)"><i class="far fa-edit"></i> {{ $t('Edit') }}</button>
 							<button v-permission="['projects-destroy']" class="btn btn-danger btn-sm" @click="deleteProject(project.id)"><i class="fas fa-trash"></i> {{ $t('Delete') }}</button>
 						</td>
 					</tr>
@@ -79,17 +79,28 @@
 					this.loadProjects();
 				}).catch((error) => console.log(error));
 			},
-			editProject(project) {
+			async editProject(id) {
 				this.editMode = true;
-				this.editId = project.id;
-				this.openMyModal();
-				this.form.fill(project)
+				this.editId = id;
+				await axios.get(`/api/projects/${id}/edit`).then((res) => {
+					this.openMyModal();
+					this.form.fill(res.data)
+				}).catch((error) => console.log(error))
 			},
-			updateProject() {
-
+			async updateProject() {
+				await this.form.put(`/api/projects/${this.editId}`).then((res) => {
+					this.successUpdateMessage();
+					this.loadProjects();
+					$('#myModal').modal('hide');
+				}).catch((error) => console.log(error))
 			},
-			deleteProject(id) {
-
+			async deleteProject(id) {
+				this.deleteConfirm().then(() => {
+					axios.delete(`/api/projects/${id}`).then(() => {
+						this.successDeleteMessage();
+						this.loadProjects();
+					}).catch((error) => console.log(error));
+				});
 			},
 			openMyModal() {
 				this.form.clear();

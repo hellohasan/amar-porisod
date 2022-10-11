@@ -28,6 +28,9 @@
 						</router-link>
 					</li>
 
+					<!-- Project Setting -->
+					<Project></Project>
+
 					<!-- Basic Setting -->
 					<Basic></Basic>
 
@@ -116,12 +119,13 @@
 <script>
 	import { mapGetters } from 'vuex'
 	import logoutMix from '../../../mixins/logout'
+	import Project from './Menu/Project.vue';
 	import Basic from './Menu/Basic.vue';
 	export default {
 		name: 'Sidebar',
 		mixins: [logoutMix],
 		components: {
-			Basic
+			Basic, Project
 		},
 		computed: {
 			...mapGetters({

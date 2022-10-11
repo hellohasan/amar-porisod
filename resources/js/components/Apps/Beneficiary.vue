@@ -96,7 +96,7 @@
 					{ data: 'created_at', name: 'created_at', orderable: true, searchable: true, },
 					{ data: 'nid', name: 'nid', orderable: true, searchable: true, },
 					{ data: 'custom_name', name: 'custom_name', orderable: true, searchable: true, },
-					{ data: 'ward_id', name: 'ward_id', orderable: true, searchable: true, },
+					{ data: 'ward_id', name: 'ward_id', orderable: false, searchable: true, },
 					{ data: 'total', name: 'total', orderable: true, searchable: false, },
 					{ data: 'status', name: 'status', orderable: true, searchable: false, },
 					{ data: 'action', name: 'action', searchable: false, sortable: false },

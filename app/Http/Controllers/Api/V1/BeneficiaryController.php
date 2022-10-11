@@ -31,7 +31,6 @@ class BeneficiaryController extends Controller
         $data = Beneficiary::select(['*', DB::raw("CONCAT(name,' - ',phone) as custom_name")])->with([
             'ward:id,name',
         ]);
-
         return DataTables::of($data)
             ->addIndexColumn()
             ->editColumn('created_at', function ($row) {
@@ -41,15 +40,12 @@ class BeneficiaryController extends Controller
                 $query->whereRaw("CONCAT(name,' - ',phone) like ?", ["%{$keyword}%"]);
             })
             ->editColumn('ward_id', function ($row) {
-                return $row->ward->name;
+                return $row->ward->name . ' ' . __('Number');
             })
             ->filterColumn('ward_id', function ($query, $keyword) {
                 $query->whereHas('ward', function ($query) use ($keyword) {
                     $query->whereRaw("name like ?", ["%{$keyword}%"]);
                 });
-            })
-            ->orderColumn('ward_id', function ($query, $order) {
-                $query->whereHas('ward')->orderBy('name', $order);
             })
             ->editColumn('status', function ($row) {
                 $class = $row->status ? "success" : "warning";
