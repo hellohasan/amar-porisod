@@ -1,6 +1,7 @@
 {
     "ok": "ঠিক আছে",
     "cancel": "বাতিল",
+    "confirmation": "নিশ্চিতকরণ",
     "confirm_title": "আপনি কি নিশ্চিত?",
     "confirm_message": "আপনি অনুমতি প্রদান করলেন?",
     "confirm_delete_message": "মুছে ফেলতে অনুমতি প্রদান করলেন?",
@@ -221,5 +222,16 @@
     "BeneficiaryInformation": "সুবিধাভোগী তথ্য",
     "PreviousBenefit": "আগের সুবিধা",
     "Approve": "অনুমোদন",
-    "Decline": "প্রত্যাখ্যান"
+    "Decline": "প্রত্যাখ্যান",
+    "Search": "অনুসন্ধান",
+    "NoPreviousProjectFound": "কোনো পূর্ববর্তী প্রকল্প পাওয়া যায়নি",
+    "confirm_duplicate_message": "এই সুবিধাভোগী ইতিমধ্যেই এই প্রকল্পে তালিকাভুক্ত হয়েছে৷",
+    "DuplicatePermit": "ডুপ্লিকেট অনুমোদন",
+    "RightNIDWarning": "এখানে সঠিক NID নম্বর লিখুন",
+    "SelectProject": "প্রকল্প নির্বাচন করুন",
+    "SelectRecommender": "সুপারিশকারী নির্বাচন করুন",
+    "loadBeneficiaries": "লোড সুবিধাভোগী",
+    "AllRecommender": "সকল সুপারিশকারী",
+    "Details": "বিস্তারিত",
+    "TotalApprove": "মোট অনুমোদিত"
 }

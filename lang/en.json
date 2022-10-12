@@ -19,5 +19,7 @@
     "NA": "N/A",
     "Person": "Person",
     "s": "'s",
-    "Number": "Number"
+    "Number": "Number",
+    "AllRecommender": "All Recommender",
+    "AllWard": "All Ward"
 }

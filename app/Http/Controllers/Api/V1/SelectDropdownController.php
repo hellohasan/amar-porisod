@@ -46,6 +46,25 @@ class SelectDropdownController extends Controller
     /**
      * @param $id
      */
+    public function loadProjectRecommenders($id)
+    {
+        $project = Project::with([
+            'recommenders.recommender.user',
+            'recommenders.recommender.ward',
+        ])->findOrFail($id);
+        $res = [];
+        foreach ($project->recommenders as $recommender) {
+            $res[] = [
+                'id'   => $recommender->recommender_id,
+                'text' => '(' . $recommender->recommender->ward->name . ') ' . $recommender->recommender->user->name,
+            ];
+        }
+        return response()->json($res, 200);
+    }
+
+    /**
+     * @param $id
+     */
     public function loadDivisionDistricts($id)
     {
         return District::select(['id', 'bn_name as text'])->whereDivisionId($id)->get();

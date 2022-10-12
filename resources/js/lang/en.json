@@ -1,6 +1,7 @@
 {
     "ok": "Ok",
     "cancel": "Cancel",
+    "confirmation": "Confirmation",
     "confirm_title": "Are you sure?",
     "confirm_message": "You want to do this?",
     "confirm_delete_message": "You want to delete this?",
@@ -220,6 +221,17 @@
     "Description": "Description",
     "BeneficiaryInformation": "Beneficiary Information",
     "PreviousBenefit": "Previous Benefit",
-    "Approve": "Permit",
-    "Decline": "Decline"
+    "Approve": "Approve",
+    "Decline": "Decline",
+    "Search": "Search",
+    "NoPreviousProjectFound": "No Previous Project Found",
+    "confirm_duplicate_message": "This Beneficiary already enlisted on this project.",
+    "DuplicatePermit": "Duplicate Approve",
+    "RightNIDWarning": "Enter the right NID Number here",
+    "SelectProject": "Select Project",
+    "SelectRecommender": "Select Recommender",
+    "loadBeneficiaries": "load Beneficiaries",
+    "AllRecommender": "All Recommender",
+    "Details": "Details",
+    "TotalApprove": "Total Approve"
 }

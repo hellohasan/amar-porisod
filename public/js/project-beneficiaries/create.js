@@ -15,6 +15,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Global_CustomSelect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Global/CustomSelect */ "./resources/js/components/Global/CustomSelect.vue");
 /* harmony import */ var _Global_CustomInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Global/CustomInput */ "./resources/js/components/Global/CustomInput.vue");
+/* harmony import */ var validatorjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! validatorjs */ "./node_modules/validatorjs/src/validator.js");
+/* harmony import */ var validatorjs__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(validatorjs__WEBPACK_IMPORTED_MODULE_3__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -91,6 +93,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -101,10 +126,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      form: new Form({}),
+      form: new Form({
+        project_id: '',
+        recommender_id: '',
+        nid: ''
+      }),
       project: '',
       projects: [],
-      benefits: []
+      benefits: [],
+      beneficiary: ''
     };
   },
   methods: {
@@ -150,9 +180,97 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
+    searchNID: function searchNID() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var validation;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _this3.form.clear();
+
+                validation = new validatorjs__WEBPACK_IMPORTED_MODULE_3__(_this3.form, {
+                  project_id: 'required',
+                  recommender_id: 'required',
+                  nid: 'required|numeric|digits_between:10,13'
+                });
+
+                if (validation.passes()) {
+                  axios.post("/api/project-beneficiaries/search", {
+                    nid: _this3.form.nid
+                  }).then(function (res) {
+                    _this3.beneficiary = res.data;
+                  })["catch"](function (error) {
+                    return console.log(error);
+                  });
+                } else {
+                  _this3.form.errors.errors = validation.errors.all();
+                }
+
+              case 3:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    submit: function submit() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return _this4.form.post('/api/project-beneficiaries').then(function (res) {
+                  var status = res.data.type;
+
+                  if (status == 'done') {
+                    _this4.successCreateMessage();
+
+                    _this4.decline();
+                  } else {
+                    Swal.fire({
+                      title: _this4.$t("confirmation"),
+                      text: _this4.$t("confirm_duplicate_message"),
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonColor: "#3085d6",
+                      cancelButtonColor: "#d33",
+                      reverseButtons: true,
+                      confirmButtonText: _this4.$t("DuplicatePermit"),
+                      cancelButtonText: _this4.$t("cancel")
+                    }).then(function (result) {
+                      if (result.isConfirmed) {
+                        _this4.form.post('/api/project-beneficiaries/duplicate').then(function (res) {
+                          _this4.successCreateMessage();
+
+                          _this4.decline();
+                        });
+                      } else {//this.decline();
+                      }
+                    });
+                  }
+                })["catch"](function (error) {
+                  return console.log(error);
+                });
+
+              case 2:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
     decline: function decline() {
       this.form.nid = '';
       this.benefits = [];
+      this.beneficiary = '';
     }
   },
   created: function created() {
@@ -614,7 +732,7 @@ var render = function () {
         [
           _c("thead", [
             _c("tr", [
-              _c("th", { staticClass: "text-right", attrs: { width: "30%" } }, [
+              _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
                 _vm._v(_vm._s(_vm.$t("Title"))),
               ]),
               _vm._v(" "),
@@ -624,7 +742,7 @@ var render = function () {
           _vm._v(" "),
           _c("tbody", [
             _c("tr", [
-              _c("td", { staticClass: "text-right" }, [
+              _c("td", { staticClass: "text-right font-weight-bold" }, [
                 _vm._v(_vm._s(_vm.$t("ProjectName"))),
               ]),
               _vm._v(" "),
@@ -652,7 +770,7 @@ var render = function () {
             ]),
             _vm._v(" "),
             _c("tr", [
-              _c("td", { staticClass: "text-right" }, [
+              _c("td", { staticClass: "text-right font-weight-bold" }, [
                 _vm._v(_vm._s(_vm.$t("ProjectDate"))),
               ]),
               _vm._v(" "),
@@ -660,15 +778,21 @@ var render = function () {
             ]),
             _vm._v(" "),
             _c("tr", [
-              _c("td", { staticClass: "text-right" }, [
+              _c("td", { staticClass: "text-right font-weight-bold" }, [
                 _vm._v(_vm._s(_vm.$t("ProjectInfo"))),
               ]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.project ? _vm.project.total : ""))]),
+              _c("td", [
+                _vm._v(
+                  _vm._s(
+                    _vm._f("persons")(_vm.project ? _vm.project.total : "")
+                  )
+                ),
+              ]),
             ]),
             _vm._v(" "),
             _c("tr", [
-              _c("td", { staticClass: "text-right" }, [
+              _c("td", { staticClass: "text-right font-weight-bold" }, [
                 _vm._v(_vm._s(_vm.$t("Recommender"))),
               ]),
               _vm._v(" "),
@@ -697,40 +821,82 @@ var render = function () {
             _c("tr", [
               _c(
                 "td",
-                { staticClass: "text-center", attrs: { colspan: "2" } },
+                {
+                  staticClass: "text-center font-weight-bold",
+                  attrs: { colspan: "2" },
+                },
                 [_vm._v(_vm._s(_vm.$t("BeneficiaryInformation")))]
               ),
             ]),
             _vm._v(" "),
             _c("tr", [
-              _c("td", { staticClass: "text-right" }, [
+              _c("td", { staticClass: "text-right font-weight-bold" }, [
                 _vm._v(_vm._s(_vm.$t("NID"))),
               ]),
               _vm._v(" "),
               _c(
                 "td",
                 [
-                  _c("custom-input", {
-                    attrs: {
-                      label: _vm.$t("NID"),
-                      form: _vm.form,
-                      name: "nid",
-                    },
-                    model: {
-                      value: _vm.form.nid,
-                      callback: function ($$v) {
-                        _vm.$set(_vm.form, "nid", $$v)
+                  _c("small", { staticClass: "text-danger" }, [
+                    _vm._v(_vm._s(_vm.$t("RightNIDWarning"))),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.nid,
+                          expression: "form.nid",
+                        },
+                        {
+                          name: "mask",
+                          rawName: "v-mask",
+                          value: "#############",
+                          expression: "'#############'",
+                        },
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "number", placeholder: _vm.$t("NID") },
+                      domProps: { value: _vm.form.nid },
+                      on: {
+                        blur: _vm.searchNID,
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "nid", $event.target.value)
+                        },
                       },
-                      expression: "form.nid",
-                    },
-                  }),
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "input-group-append" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-outline-secondary",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              $event.preventDefault()
+                              return _vm.searchNID.apply(null, arguments)
+                            },
+                          },
+                        },
+                        [_vm._v(_vm._s(_vm.$t("Search")))]
+                      ),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("HasError", { attrs: { form: _vm.form, field: "nid" } }),
                 ],
                 1
               ),
             ]),
             _vm._v(" "),
             _c("tr", [
-              _c("td", { staticClass: "text-right text-bold" }, [
+              _c("td", { staticClass: "text-right font-weight-bold" }, [
                 _vm._v(_vm._s(_vm.$t("PreviousBenefit"))),
               ]),
               _vm._v(" "),
@@ -744,43 +910,97 @@ var render = function () {
                       _vm._v(" "),
                       _c("th", [_vm._v(_vm._s(_vm.$t("Project")))]),
                       _vm._v(" "),
+                      _c("th", [_vm._v(_vm._s(_vm.$t("Ward")))]),
+                      _vm._v(" "),
                       _c("th", [_vm._v(_vm._s(_vm.$t("Recommender")))]),
                     ]),
                   ]),
+                  _vm._v(" "),
+                  _vm.beneficiary
+                    ? _c(
+                        "tbody",
+                        [
+                          _vm.beneficiary.projects.length
+                            ? _vm._l(
+                                _vm.beneficiary.projects,
+                                function (project, index) {
+                                  return _c("tr", { key: index }, [
+                                    _c("td", [_vm._v(_vm._s(++index))]),
+                                    _vm._v(" "),
+                                    _c("td", [_vm._v(_vm._s(project.date))]),
+                                    _vm._v(" "),
+                                    _c("td", [_vm._v(_vm._s(project.name))]),
+                                    _vm._v(" "),
+                                    _c("td", [_vm._v(_vm._s(project.ward))]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(_vm._s(project.recommender)),
+                                    ]),
+                                  ])
+                                }
+                              )
+                            : _c("tr", [
+                                _c(
+                                  "td",
+                                  {
+                                    staticClass: "text-center",
+                                    attrs: { colspan: "5" },
+                                  },
+                                  [
+                                    _vm._v(
+                                      _vm._s(_vm.$t("NoPreviousProjectFound"))
+                                    ),
+                                  ]
+                                ),
+                              ]),
+                        ],
+                        2
+                      )
+                    : _vm._e(),
                 ]),
               ]),
             ]),
             _vm._v(" "),
-            _c("tr", [
-              _c("td", { staticClass: "text-right" }, [
-                _vm._v(_vm._s(_vm.$t("Action"))),
-              ]),
-              _vm._v(" "),
-              _c("td", [
-                _c("div", { staticClass: "row" }, [
-                  _c(
-                    "button",
-                    { staticClass: "col-md-6 btn btn-success btn-lg" },
-                    [_vm._v(_vm._s(_vm.$t("Approve")))]
-                  ),
+            _vm.beneficiary
+              ? _c("tr", [
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(_vm._s(_vm.$t("Action"))),
+                  ]),
                   _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "col-md-6 btn btn-danger btn-lg",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function ($event) {
-                          $event.preventDefault()
-                          return _vm.decline.apply(null, arguments)
+                  _c("td", [
+                    _c("div", { staticClass: "row" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "col-md-6 btn btn-success btn-lg",
+                          on: {
+                            click: function ($event) {
+                              $event.preventDefault()
+                              return _vm.submit.apply(null, arguments)
+                            },
+                          },
                         },
-                      },
-                    },
-                    [_vm._v(_vm._s(_vm.$t("Decline")))]
-                  ),
-                ]),
-              ]),
-            ]),
+                        [_vm._v(_vm._s(_vm.$t("Approve")))]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "col-md-6 btn btn-danger btn-lg",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function ($event) {
+                              $event.preventDefault()
+                              return _vm.decline.apply(null, arguments)
+                            },
+                          },
+                        },
+                        [_vm._v(_vm._s(_vm.$t("Decline")))]
+                      ),
+                    ]),
+                  ]),
+                ])
+              : _vm._e(),
           ]),
         ]
       ),

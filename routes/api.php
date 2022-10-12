@@ -75,6 +75,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::resource('projects', ProjectController::class)->except(['create']);
 
     Route::get('load-project-details/{id}', [ProjectBeneficiaryController::class, 'loadProjectDetail']);
+    Route::post('project-beneficiaries/search', [ProjectBeneficiaryController::class, 'search']);
+    Route::post('project-beneficiaries/duplicate', [ProjectBeneficiaryController::class, 'duplicate']);
+    Route::resource('project-beneficiaries', ProjectBeneficiaryController::class)->except(['create', 'edit', 'show', 'update']);
 
     Route::get('load-division-districts/{id}', [SelectDropdownController::class, 'loadDivisionDistricts']);
     Route::get('load-district-upazilas/{id}', [SelectDropdownController::class, 'loadDistrictUpazilas']);
@@ -82,6 +85,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('load-ward-list', [SelectDropdownController::class, 'loadWardList']);
     Route::get('load-recommenders-lists', [SelectDropdownController::class, 'loadRecommenderList']);
     Route::get('load-project-lists', [SelectDropdownController::class, 'loadProjectList']);
+    Route::get('load-project-recommenders/{id}', [SelectDropdownController::class, 'loadProjectRecommenders']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

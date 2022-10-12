@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('project_beneficiaries', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('recommender_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('beneficiary_id')->constrained()->cascadeOnDelete();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Beneficiary;
 use App\Models\Project;
+use App\Models\ProjectBeneficiary;
 use App\Models\Recommender;
 use Illuminate\Http\Request;
 
@@ -36,23 +38,80 @@ class ProjectBeneficiaryController extends Controller
     }
 
     /**
+     * @param Request $request
+     */
+    public function search(Request $request)
+    {
+        $request->validate([
+            'nid' => 'required|numeric|digits_between:10,13',
+        ]);
+
+        $beneficiary = Beneficiary::whereNid($request->input('nid'))->first();
+        $projects = [];
+        if ($beneficiary) {
+            $benefits = ProjectBeneficiary::with([
+                'project:id,name',
+                'recommender.user:id,name',
+                'recommender.ward:id,name',
+            ])->whereBeneficiaryId($beneficiary->id)
+                ->orderByDesc('id')
+                ->get();
+            foreach ($benefits as $benefit) {
+                $projects[] = [
+                    'name'        => $benefit->project->name,
+                    'date'        => $benefit->created_at->format('dS M, Y'),
+                    'recommender' => $benefit->recommender->user->name,
+                    'ward'        => $benefit->recommender->ward->name,
+                ];
+            }
+        }
+
+        $res = ['projects' => $projects];
+
+        return response()->json($res, 200);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'project_id'     => 'required',
+            'recommender_id' => 'required',
+        ]);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $project = Project::findOrFail($request->input('project_id'));
+        $beneficiaries = ProjectBeneficiary::whereProjectId($project->id)
+            ->when($request->input('recommender_id') != 0, function ($query) use ($request) {
+                $query->where('recommender_id', $request->input('recommender_id'));
+            })
+            ->with([
+                'recommender.user:id,name',
+                'recommender.ward:id,name',
+                'beneficiary:id,name,nid,phone',
+            ])
+            ->orderBy('recommender_id', 'asc')
+            ->get();
+
+        $res['name'] = $project->name;
+        $res['total'] = $beneficiaries->count();
+        $res['beneficiaries'] = $beneficiaries;
+        if ($request->input('recommender_id')) {
+            $rec = Recommender::with(['user:id,name', 'ward:id,name'])->findOrFail($request->input('recommender_id'));
+            $res['showWard'] = false;
+            $res['ward'] = $rec->ward->name;
+            $res['recommender'] = $rec->user->name;
+        } else {
+            $res['showWard'] = true;
+            $res['ward'] = __('AllWard');
+            $res['recommender'] = __('AllRecommender');
+        }
+
+        return response()->json($res, 200);
+
     }
 
     /**
@@ -63,41 +122,81 @@ class ProjectBeneficiaryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'project_id'     => 'required',
+            'recommender_id' => 'required',
+            'nid'            => 'required|numeric|digits_between:10,13',
+        ]);
+
+        $beneficiary = Beneficiary::with([
+            'ward:id,name',
+        ])->whereNid($request->input('nid'))->first();
+
+        if ($beneficiary) {
+            $projectBeneficiary = ProjectBeneficiary::where([
+                'project_id'     => $request->input('project_id'),
+                'beneficiary_id' => $beneficiary->id,
+            ])->exists();
+
+            if ($projectBeneficiary) {
+                $res = ['type' => 'duplicate'];
+            } else {
+                $tt = ProjectBeneficiary::create([
+                    'project_id'     => $request->input('project_id'),
+                    'recommender_id' => $request->input('recommender_id'),
+                    'beneficiary_id' => $beneficiary->id,
+                ]);
+                $lastId = ProjectBeneficiary::whereProjectId($request->input('project_id'))->orderByDesc('custom')->first();
+                $tt->custom = $lastId ? $lastId->custom + 1 : custom(1, 5);
+                $tt->save();
+                $res = ['type' => 'done'];
+            }
+        } else {
+            $recommender = Recommender::find($request->input('recommender_id'));
+            $beneficiary = Beneficiary::create([
+                'nid'     => $request->input('nid'),
+                'ward_id' => $recommender->ward_id,
+            ]);
+
+            $tt = ProjectBeneficiary::create([
+                'project_id'     => $request->input('project_id'),
+                'recommender_id' => $request->input('recommender_id'),
+                'beneficiary_id' => $beneficiary->id,
+            ]);
+            $lastId = ProjectBeneficiary::whereProjectId($request->input('project_id'))->orderByDesc('custom')->first();
+            $tt->custom = $lastId ? $lastId->custom + 1 : custom(1, 5);
+            $tt->save();
+            $res = ['type' => 'done'];
+        }
+
+        return response()->json($res, 200);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
      */
-    public function show($id)
+    public function duplicate(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'project_id'     => 'required',
+            'recommender_id' => 'required',
+            'nid'            => 'required|numeric|digits_between:10,13',
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        $beneficiary = Beneficiary::with([
+            'ward:id,name',
+        ])->whereNid($request->input('nid'))->first();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        $tt = ProjectBeneficiary::create([
+            'project_id'     => $request->input('project_id'),
+            'recommender_id' => $request->input('recommender_id'),
+            'beneficiary_id' => $beneficiary->id,
+        ]);
+        $lastId = ProjectBeneficiary::whereProjectId($request->input('project_id'))->orderByDesc('custom')->first();
+        $tt->custom = $lastId ? $lastId->custom + 1 : custom(1, 5);
+        $tt->save();
+        $res = ['type' => 'done'];
+        return response()->json($res, 200);
     }
 
     /**
@@ -108,6 +207,6 @@ class ProjectBeneficiaryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        ProjectBeneficiary::destroy($id);
     }
 }

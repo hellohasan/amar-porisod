@@ -100,6 +100,7 @@ Vue.filter("items", function (data) {
 });
 
 Vue.filter("numberConversion", function (data) {
+  if (data == undefined) return "";
   if (store.state.lang === "en") {
     return data;
   } else if (store.state.lang === "bn") {

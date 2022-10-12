@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Models\Beneficiary;
 use Auth;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Jenssegers\Date\Date;
 use Yajra\DataTables\Facades\DataTables;
 
 class BeneficiaryController extends Controller
@@ -30,11 +30,14 @@ class BeneficiaryController extends Controller
         $user = Auth::user();
         $data = Beneficiary::select(['*', DB::raw("CONCAT(name,' - ',phone) as custom_name")])->with([
             'ward:id,name',
-        ]);
+        ])->withCount('benefits');
+
+        Date::setLocale(app()->getLocale());
+
         return DataTables::of($data)
             ->addIndexColumn()
             ->editColumn('created_at', function ($row) {
-                return Carbon::parse($row->created_at)->format('dS M y');
+                return Date::parse($row->created_at)->format('dS F, Y');
             })
             ->filterColumn('custom_name', function ($query, $keyword) {
                 $query->whereRaw("CONCAT(name,' - ',phone) like ?", ["%{$keyword}%"]);
@@ -53,7 +56,7 @@ class BeneficiaryController extends Controller
                 return "<span class='badge badge-{$class}'>{$text}</span>";
             })
             ->addColumn('total', function ($row) {
-                return 0 . ' ' . __('s');
+                return BengaliConvert($row->benefits_count) . ' ' . __('s');
             })
             ->setRowClass(function ($row) {
                 return !$row->status ? 'bg-danger' : '';
