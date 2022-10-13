@@ -6,6 +6,8 @@
     "/js/project-beneficiaries.js": "/js/project-beneficiaries.js",
     "/js/project-beneficiaries/index.js": "/js/project-beneficiaries/index.js",
     "/js/project-beneficiaries/create.js": "/js/project-beneficiaries/create.js",
+    "/js/project-beneficiaries/slip.js": "/js/project-beneficiaries/slip.js",
     "/js/settings/basic-setting.js": "/js/settings/basic-setting.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/dashboard/search-beneficiary.js": "/js/dashboard/search-beneficiary.js"
 }

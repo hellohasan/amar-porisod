@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Settings\BasicSettingController;
 use App\Http\Controllers\Api\Settings\LanguageSettingController;
 use App\Http\Controllers\Api\Settings\PermissionController;
 use App\Http\Controllers\Api\Settings\RoleController;
+use App\Http\Controllers\Api\StatisticController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\V1\BeneficiaryController;
 use App\Http\Controllers\Api\V1\ProjectBeneficiaryController;
@@ -61,6 +62,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('basic-setting', [BasicSettingController::class, 'getBasicSetting']);
     Route::post('basic-setting-submit', [BasicSettingController::class, 'submitBasicSetting']);
 
+    Route::get('dashboard', [DashboardController::class, 'index']);
+    Route::get('recommender-statistic', [StatisticController::class, 'recommender']);
+    Route::get('ward-statistic', [StatisticController::class, 'ward']);
+
     /* ward route list */
     Route::apiResource('wards', WardController::class)->except(['show']);
 
@@ -77,7 +82,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('load-project-details/{id}', [ProjectBeneficiaryController::class, 'loadProjectDetail']);
     Route::post('project-beneficiaries/search', [ProjectBeneficiaryController::class, 'search']);
     Route::post('project-beneficiaries/duplicate', [ProjectBeneficiaryController::class, 'duplicate']);
+    Route::get('project-beneficiaries/slip/{pId}/{rId}', [ProjectBeneficiaryController::class, 'slips']);
     Route::resource('project-beneficiaries', ProjectBeneficiaryController::class)->except(['create', 'edit', 'show', 'update']);
+
+    Route::post('search-beneficiary', [BeneficiaryController::class, 'search']);
 
     Route::get('load-division-districts/{id}', [SelectDropdownController::class, 'loadDivisionDistricts']);
     Route::get('load-district-upazilas/{id}', [SelectDropdownController::class, 'loadDistrictUpazilas']);

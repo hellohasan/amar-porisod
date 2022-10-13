@@ -21,5 +21,7 @@
     "s": "'s",
     "Number": "Number",
     "AllRecommender": "All Recommender",
-    "AllWard": "All Ward"
+    "AllWard": "All Ward",
+    "RecommenderStatistic": "Recommender Statistic",
+    "ward": "ward"
 }

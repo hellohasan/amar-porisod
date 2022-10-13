@@ -30,6 +30,17 @@ export default [
           permissions: ["project-beneficiaries-create"],
         },
       },
+      {
+        path: "slip",
+        component: () =>
+          import(
+            /* webpackChunkName:"project-beneficiaries/slip" */ "../../components/Apps/ProjectBeneficiary/Slip"
+          ),
+        meta: {
+          title: i18n.tc("PrintProjectBeneficiary"),
+          permissions: ["project-beneficiaries-slip"],
+        },
+      },
     ],
   },
 ];

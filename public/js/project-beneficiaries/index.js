@@ -105,6 +105,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -126,22 +128,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
-    saveToPDF: function saveToPDF() {
+    printSlip: function printSlip() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var _this$info, _this$info2, _this$info3;
-
-        var docName;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                docName = "".concat((_this$info = _this.info) === null || _this$info === void 0 ? void 0 : _this$info.name, " - (").concat((_this$info2 = _this.info) === null || _this$info2 === void 0 ? void 0 : _this$info2.ward, ") - ").concat((_this$info3 = _this.info) === null || _this$info3 === void 0 ? void 0 : _this$info3.recommender, ".pdf");
-                _context.next = 3;
-                return html2pdf_js__WEBPACK_IMPORTED_MODULE_1___default()(_this.$refs.printMe, (0,_helpers_pdfOptions__WEBPACK_IMPORTED_MODULE_2__["default"])(docName));
+                _this.$router.push({
+                  path: '/project-beneficiaries/slip',
+                  query: {
+                    project_id: _this.form.project_id,
+                    recommender_id: _this.form.recommender_id
+                  }
+                });
 
-              case 3:
+              case 1:
               case "end":
                 return _context.stop();
             }
@@ -149,18 +152,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    printToPaper: function printToPaper() {
+    saveToPDF: function saveToPDF() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var _this2$info, _this2$info2, _this2$info3;
+
+        var docName;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return _this2.$htmlToPaper('printMe');
+                docName = "".concat((_this2$info = _this2.info) === null || _this2$info === void 0 ? void 0 : _this2$info.name, " - (").concat((_this2$info2 = _this2.info) === null || _this2$info2 === void 0 ? void 0 : _this2$info2.ward, ") - ").concat((_this2$info3 = _this2.info) === null || _this2$info3 === void 0 ? void 0 : _this2$info3.recommender, ".pdf");
+                _context2.next = 3;
+                return html2pdf_js__WEBPACK_IMPORTED_MODULE_1___default()(_this2.$refs.printMe, (0,_helpers_pdfOptions__WEBPACK_IMPORTED_MODULE_2__["default"])(docName));
 
-              case 2:
+              case 3:
               case "end":
                 return _context2.stop();
             }
@@ -168,40 +175,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    loadBeneficiaries: function loadBeneficiaries() {
+    printToPaper: function printToPaper() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        var validation;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _this3.form.clear();
+                _context3.next = 2;
+                return _this3.$htmlToPaper('printMe');
 
-                validation = new validatorjs__WEBPACK_IMPORTED_MODULE_4__(_this3.form, {
-                  project_id: 'required',
-                  recommender_id: 'required'
-                });
-
-                if (!validation.passes()) {
-                  _context3.next = 7;
-                  break;
-                }
-
-                _context3.next = 5;
-                return _this3.form.get('/api/project-beneficiaries').then(function (res) {
-                  _this3.info = res.data;
-                });
-
-              case 5:
-                _context3.next = 8;
-                break;
-
-              case 7:
-                _this3.form.errors.errors = validation.errors.all();
-
-              case 8:
+              case 2:
               case "end":
                 return _context3.stop();
             }
@@ -209,24 +194,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    deleteList: function deleteList(id) {
+    loadBeneficiaries: function loadBeneficiaries() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var validation;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _context4.next = 2;
-                return _this4.deleteConfirm().then(function () {
-                  axios["delete"]("/api/project-beneficiaries/".concat(id)).then(function (res) {
-                    _this4.successDeleteMessage();
+                _this4.form.clear();
 
-                    _this4.loadBeneficiaries();
-                  });
+                validation = new validatorjs__WEBPACK_IMPORTED_MODULE_4__(_this4.form, {
+                  project_id: 'required',
+                  recommender_id: 'required'
                 });
 
-              case 2:
+                if (!validation.passes()) {
+                  _context4.next = 7;
+                  break;
+                }
+
+                _context4.next = 5;
+                return _this4.form.get('/api/project-beneficiaries').then(function (res) {
+                  _this4.info = res.data;
+                });
+
+              case 5:
+                _context4.next = 8;
+                break;
+
+              case 7:
+                _this4.form.errors.errors = validation.errors.all();
+
+              case 8:
               case "end":
                 return _context4.stop();
             }
@@ -234,7 +235,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    changeProject: function changeProject(id) {
+    deleteList: function deleteList(id) {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
@@ -242,25 +243,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                if (!id) {
-                  _context5.next = 4;
-                  break;
-                }
+                _context5.next = 2;
+                return _this5.deleteConfirm().then(function () {
+                  axios["delete"]("/api/project-beneficiaries/".concat(id)).then(function (res) {
+                    _this5.successDeleteMessage();
 
-                _this5.recommenders = [];
-                _context5.next = 4;
-                return axios.get("/api/load-project-recommenders/".concat(id)).then(function (res) {
-                  _this5.recommenders.push({
-                    id: 0,
-                    text: _this5.$t('AllRecommender')
-                  });
-
-                  res.data.forEach(function (el) {
-                    _this5.recommenders.push(el);
+                    _this5.loadBeneficiaries();
                   });
                 });
 
-              case 4:
+              case 2:
               case "end":
                 return _context5.stop();
             }
@@ -268,11 +260,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee5);
       }))();
     },
-    loadProjects: function loadProjects() {
+    changeProject: function changeProject(id) {
       var _this6 = this;
 
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                if (!id) {
+                  _context6.next = 4;
+                  break;
+                }
+
+                _this6.recommenders = [];
+                _context6.next = 4;
+                return axios.get("/api/load-project-recommenders/".concat(id)).then(function (res) {
+                  _this6.recommenders.push({
+                    id: 0,
+                    text: _this6.$t('AllRecommender')
+                  });
+
+                  res.data.forEach(function (el) {
+                    _this6.recommenders.push(el);
+                  });
+                });
+
+              case 4:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    loadProjects: function loadProjects() {
+      var _this7 = this;
+
       axios.get('/api/load-project-lists').then(function (res) {
-        _this6.projects = res.data;
+        _this7.projects = res.data;
       });
     }
   },
@@ -16403,236 +16429,294 @@ var render = function () {
                   expression: "form.recommender_id",
                 },
               }),
+              _vm._v(" "),
+              _c(
+                "form-group-button",
+                {
+                  attrs: {
+                    col: "col-md-6",
+                    form: _vm.form,
+                    icon: "fas fa-search",
+                  },
+                },
+                [_vm._v(_vm._s(_vm.$t("loadBeneficiaries")))]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "btn btn-success btn-block btn-lg text-uppercase font-weight-bold",
+                    attrs: { type: "button" },
+                    on: { click: _vm.printSlip },
+                  },
+                  [
+                    _c("i", { staticClass: "fas fa-receipt" }),
+                    _vm._v(" " + _vm._s(_vm.$t("PrintSlip"))),
+                  ]
+                ),
+              ]),
             ],
             1
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary btn-lg btn-block",
-              attrs: { type: "submit", disabled: _vm.form.busy },
-            },
-            [
-              _c("i", { staticClass: "fas fa-search" }),
-              _vm._v(" " + _vm._s(_vm.$t("loadBeneficiaries"))),
-            ]
           ),
         ]
       ),
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
-      _c(
-        "div",
-        { ref: "printMe", attrs: { id: "printMe" } },
-        [
-          _c("Pad"),
-          _vm._v(" "),
-          _c(
-            "table",
-            {
-              staticClass: "table table-bordered table-striped",
-              staticStyle: { "margin-top": "-25px" },
-            },
-            [
-              _c("thead", [
-                _c("tr", [
-                  _c(
-                    "th",
-                    { staticClass: "text-right", attrs: { width: "50%" } },
-                    [_vm._v(_vm._s(_vm.$t("Title")))]
-                  ),
-                  _vm._v(" "),
-                  _c("th", [_vm._v(_vm._s(_vm.$t("Description")))]),
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(_vm._s(_vm.$t("ProjectName"))),
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(_vm.info.name))]),
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(_vm._s(_vm.$t("TotalApprove"))),
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        _vm._f("persons")(
-                          _vm._f("numberConversion")(_vm.info.total)
-                        )
-                      )
-                    ),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(_vm._s(_vm.$t("WardNumber"))),
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(_vm.info.ward))]),
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(_vm._s(_vm.$t("Recommender"))),
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(_vm.info.recommender))]),
-                ]),
-              ]),
-            ]
-          ),
-          _vm._v(" "),
-          _c("table", { staticClass: "table table-bordered table-striped" }, [
-            _c("thead", [
-              _c(
-                "tr",
-                [
-                  _c("th", [_vm._v(_vm._s(_vm.$t("SL")))]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v(_vm._s(_vm.$t("Custom")))]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v(_vm._s(_vm.$t("NID")))]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v(_vm._s(_vm.$t("Details")))]),
-                  _vm._v(" "),
-                  _vm.info.showWard
-                    ? [
-                        _c("th", [_vm._v(_vm._s(_vm.$t("Ward")))]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v(_vm._s(_vm.$t("Recommender")))]),
-                      ]
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    {
-                      staticClass: "noprint",
-                      attrs: { "data-html2canvas-ignore": "" },
-                    },
-                    [_vm._v(_vm._s(_vm.$t("Action")))]
-                  ),
-                ],
-                2
-              ),
-            ]),
-            _vm._v(" "),
+      _vm.info
+        ? [
             _c(
-              "tbody",
-              _vm._l(_vm.info.beneficiaries, function (beneficiary, index) {
-                return _c(
-                  "tr",
-                  { key: index },
+              "div",
+              { ref: "printMe", attrs: { id: "printMe" } },
+              [
+                _c("Pad"),
+                _vm._v(" "),
+                _c(
+                  "table",
+                  {
+                    staticClass: "table table-bordered table-striped",
+                    staticStyle: { "margin-top": "-25px" },
+                  },
                   [
-                    _c("td", [
-                      _vm._v(_vm._s(_vm._f("numberConversion")(++index))),
+                    _c("thead", [
+                      _c("tr", [
+                        _c(
+                          "th",
+                          {
+                            staticClass: "text-right",
+                            attrs: { width: "50%" },
+                          },
+                          [_vm._v(_vm._s(_vm.$t("Title")))]
+                        ),
+                        _vm._v(" "),
+                        _c("th", [_vm._v(_vm._s(_vm.$t("Description")))]),
+                      ]),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", { staticClass: "text-right" }, [
+                          _vm._v(_vm._s(_vm.$t("ProjectName"))),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(_vm.info.name))]),
+                      ]),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", { staticClass: "text-right" }, [
+                          _vm._v(_vm._s(_vm.$t("TotalApprove"))),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("persons")(
+                                _vm._f("numberConversion")(_vm.info.total)
+                              )
+                            )
+                          ),
+                        ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", { staticClass: "text-right" }, [
+                          _vm._v(_vm._s(_vm.$t("WardNumber"))),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(_vm.info.ward))]),
+                      ]),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", { staticClass: "text-right" }, [
+                          _vm._v(_vm._s(_vm.$t("Recommender"))),
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(_vm.info.recommender))]),
+                      ]),
                     ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(_vm._f("numberConversion")(beneficiary.custom))
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(
-                          _vm._f("numberConversion")(
-                            beneficiary.beneficiary.nid
-                          )
-                        )
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(_vm._s(beneficiary.beneficiary.name) + " "),
-                      _c("br"),
-                      _vm._v(_vm._s(beneficiary.beneficiary.phone)),
-                    ]),
-                    _vm._v(" "),
-                    _vm.info.showWard
-                      ? [
-                          _c("td", [
-                            _vm._v(_vm._s(beneficiary.recommender.ward.name)),
-                          ]),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "table",
+                  { staticClass: "table table-bordered table-striped" },
+                  [
+                    _c("thead", [
+                      _c(
+                        "tr",
+                        [
+                          _c("th", [_vm._v(_vm._s(_vm.$t("SL")))]),
                           _vm._v(" "),
-                          _c("td", [
-                            _vm._v(_vm._s(beneficiary.recommender.user.name)),
-                          ]),
-                        ]
-                      : _vm._e(),
+                          _c("th", [_vm._v(_vm._s(_vm.$t("Custom")))]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v(_vm._s(_vm.$t("NID")))]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v(_vm._s(_vm.$t("Details")))]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v(_vm._s(_vm.$t("WardNumber")))]),
+                          _vm._v(" "),
+                          _vm.info.showWard
+                            ? [
+                                _c("th", [
+                                  _vm._v(_vm._s(_vm.$t("Recommender"))),
+                                ]),
+                              ]
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "th",
+                            {
+                              staticClass: "noprint",
+                              attrs: { "data-html2canvas-ignore": "" },
+                            },
+                            [_vm._v(_vm._s(_vm.$t("Action")))]
+                          ),
+                        ],
+                        2
+                      ),
+                    ]),
                     _vm._v(" "),
                     _c(
-                      "td",
-                      {
-                        staticClass: "noprint",
-                        attrs: { "data-html2canvas-ignore": "" },
-                      },
-                      [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-danger btn-sm",
-                            on: {
-                              click: function ($event) {
-                                $event.preventDefault()
-                                return _vm.deleteList(beneficiary.id)
-                              },
-                            },
-                          },
-                          [
-                            _c("i", { staticClass: "fas fa-times" }),
-                            _vm._v(" " + _vm._s(_vm.$t("cancel"))),
-                          ]
-                        ),
-                      ]
+                      "tbody",
+                      _vm._l(
+                        _vm.info.beneficiaries,
+                        function (beneficiary, index) {
+                          return _c(
+                            "tr",
+                            { key: index },
+                            [
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(_vm._f("numberConversion")(++index))
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("numberConversion")(
+                                      beneficiary.custom
+                                    )
+                                  )
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("numberConversion")(
+                                      beneficiary.beneficiary.nid
+                                    )
+                                  )
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(beneficiary.beneficiary.name) + " "
+                                ),
+                                _c("br"),
+                                _vm._v(_vm._s(beneficiary.beneficiary.phone)),
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(beneficiary.beneficiary.ward.name)
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _vm.info.showWard
+                                ? [
+                                    _c("td", [
+                                      _vm._v(
+                                        _vm._s(
+                                          beneficiary.recommender.user.name
+                                        )
+                                      ),
+                                    ]),
+                                  ]
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                {
+                                  staticClass: "noprint",
+                                  attrs: { "data-html2canvas-ignore": "" },
+                                },
+                                [
+                                  _c(
+                                    "button",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "permission",
+                                          rawName: "v-permission",
+                                          value: [
+                                            "project-beneficiaries-destroy",
+                                          ],
+                                          expression:
+                                            "['project-beneficiaries-destroy']",
+                                        },
+                                      ],
+                                      staticClass: "btn btn-danger btn-sm",
+                                      on: {
+                                        click: function ($event) {
+                                          $event.preventDefault()
+                                          return _vm.deleteList(beneficiary.id)
+                                        },
+                                      },
+                                    },
+                                    [
+                                      _c("i", { staticClass: "fas fa-times" }),
+                                      _vm._v(" " + _vm._s(_vm.$t("cancel"))),
+                                    ]
+                                  ),
+                                ]
+                              ),
+                            ],
+                            2
+                          )
+                        }
+                      ),
+                      0
                     ),
-                  ],
-                  2
-                )
-              }),
-              0
+                  ]
+                ),
+              ],
+              1
             ),
-          ]),
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "d-flex justify-content-end" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-secondary",
-            attrs: { type: "button" },
-            on: { click: _vm.saveToPDF },
-          },
-          [
-            _c("i", { staticClass: "fas fa-file-pdf" }),
-            _vm._v(" " + _vm._s(_vm.$t("PDF"))),
+            _vm._v(" "),
+            _c("div", { staticClass: "d-flex justify-content-end" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button" },
+                  on: { click: _vm.saveToPDF },
+                },
+                [
+                  _c("i", { staticClass: "fas fa-file-pdf" }),
+                  _vm._v(" " + _vm._s(_vm.$t("PDF"))),
+                ]
+              ),
+              _vm._v(" \n\t\t\t"),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button" },
+                  on: { click: _vm.printToPaper },
+                },
+                [
+                  _c("i", { staticClass: "fas fa-print" }),
+                  _vm._v(" " + _vm._s(_vm.$t("Print"))),
+                ]
+              ),
+            ]),
           ]
-        ),
-        _vm._v(" \n\t\t"),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary",
-            attrs: { type: "button" },
-            on: { click: _vm.printToPaper },
-          },
-          [
-            _c("i", { staticClass: "fas fa-print" }),
-            _vm._v(" " + _vm._s(_vm.$t("Print"))),
-          ]
-        ),
-      ]),
-    ]
+        : void 0,
+    ],
+    2
   )
 }
 var staticRenderFns = []

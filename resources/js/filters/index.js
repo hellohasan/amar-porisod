@@ -82,6 +82,7 @@ Vue.filter("students", function (data) {
 });
 
 Vue.filter("persons", function (data) {
+  if (data == undefined) return "";
   if (store.state.lang === "en") {
     return data + " 's";
   } else if (store.state.lang === "bn") {
@@ -91,6 +92,7 @@ Vue.filter("persons", function (data) {
 });
 
 Vue.filter("items", function (data) {
+  if (data == undefined) return "";
   if (store.state.lang === "en") {
     return data + `'s`;
   } else if (store.state.lang === "bn") {

@@ -21,5 +21,7 @@
     "s": "টি",
     "Number": "নম্বর",
     "AllRecommender": "সকল সুপারিশকারী",
-    "AllWard": "সকল ওয়ার্ড"
+    "AllWard": "সকল ওয়ার্ড",
+    "RecommenderStatistic": "সুপারিশকারী পরিসংখ্যান",
+    "ward": "ওয়ার্ড"
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Beneficiary;
+use App\Models\Recommender;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -11,6 +13,14 @@ use Spatie\Permission\Models\Role;
 
 class DashboardController extends Controller
 {
+    public function index()
+    {
+        $res['total_beneficiary'] = Beneficiary::count();
+        $res['total_recommender'] = Recommender::count();
+        $res['total_user'] = User::count();
+        return response()->json($res, 200);
+    }
+
     public function getUserList()
     {
         return User::with('roles:id,name')->orderByDesc('id')->get();
@@ -25,7 +35,7 @@ class DashboardController extends Controller
             'name'     => 'required',
             'email'    => 'required|unique:users,email',
             'role'     => 'required|integer',
-            'password' => ['required', RulesPassword::default()]
+            'password' => ['required', RulesPassword::default()],
         ]);
 
         $in = $request->except(['role', 'password']);
@@ -51,7 +61,7 @@ class DashboardController extends Controller
             'name'     => 'required|max:191',
             'email'    => 'required|max:191|unique:users,email,' . $id,
             'password' => ['sometimes', RulesPassword::default()],
-            'role'     => 'required'
+            'role'     => 'required',
         ]);
 
         $in = $request->except(['role']);

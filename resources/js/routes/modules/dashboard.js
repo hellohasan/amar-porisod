@@ -14,6 +14,19 @@ export default [
     },
   },
   {
+    path: "/search-beneficiary",
+    name: "search-beneficiary",
+    component: () =>
+      import(
+        /*webpackChunkName: "dashboard/search-beneficiary"*/ "../../components/Apps/SearchBeneficiary"
+      ),
+    meta: {
+      title: i18n.tc("SearchBeneficiary"),
+      requireAuth: true,
+      permissions: ["search-beneficiary"],
+    },
+  },
+  {
     path: "/users",
     name: "users",
     component: () =>

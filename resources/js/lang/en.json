@@ -233,5 +233,19 @@
     "loadBeneficiaries": "load Beneficiaries",
     "AllRecommender": "All Recommender",
     "Details": "Details",
-    "TotalApprove": "Total Approve"
+    "TotalApprove": "Total Approve",
+    "PrintSlip": "Print Slip",
+    "PrintProjectBeneficiary": "Print Project Beneficiary",
+    "Mobile": "Mobile",
+    "ChairmanSignature": "Chairman Signature",
+    "SearchBeneficiary": "Search Beneficiary",
+    "SearchText": "Write Beneficiary NID or Phone Number",
+    "NoBeneficiaryFound": "No Beneficiary Found",
+    "Statistic": "Statistic",
+    "TotalRecommender": "Total Recommender",
+    "TotalUser": "Total User",
+    "Person": "Person",
+    "PleaseWait": "Please Wait",
+    "RecommenderStatistic": "Recommender Statistic",
+    "WardStatistic": "Ward Statistic"
 }

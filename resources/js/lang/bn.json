@@ -233,5 +233,19 @@
     "loadBeneficiaries": "লোড সুবিধাভোগী",
     "AllRecommender": "সকল সুপারিশকারী",
     "Details": "বিস্তারিত",
-    "TotalApprove": "মোট অনুমোদিত"
+    "TotalApprove": "মোট অনুমোদিত",
+    "PrintSlip": "প্রিন্ট স্লিপ",
+    "PrintProjectBeneficiary": "প্রিন্ট প্রকল্পের সুবিধাভোগী",
+    "Mobile": "মোবাইল",
+    "ChairmanSignature": "চেয়ারম্যানের স্বাক্ষর",
+    "SearchBeneficiary": "সুবিধাভোগী অনুসন্ধান",
+    "SearchText": "সুবিধাভোগী NID বা ফোন নম্বর লিখুন",
+    "NoBeneficiaryFound": "কোনো সুবিধাভোগী পাওয়া যায়নি",
+    "Statistic": "পরিসংখ্যান",
+    "TotalRecommender": "মোট সুপারিশকারী",
+    "TotalUser": "মোট ব্যবহারকারী",
+    "Person": "জন",
+    "PleaseWait": "অনুগ্রহপূর্বক অপেক্ষা করুন",
+    "RecommenderStatistic": "সুপারিশকারী পরিসংখ্যান",
+    "WardStatistic": "ওয়ার্ড পরিসংখ্যান"
 }

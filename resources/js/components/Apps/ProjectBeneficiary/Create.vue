@@ -46,6 +46,26 @@
 					</td>
 				</tr>
 				<tr>
+					<td class="text-right font-weight-bold">{{ $t('WardNumber') }}</td>
+					<td>
+						<custom-select :form="form" v-model="form.ward_id" name="ward_id" :options="wards"></custom-select>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-right font-weight-bold">{{ $t('Name') }}</td>
+					<td>
+						<input type="text" v-model="form.name" class="form-control" :placeholder="$t('BeneficiaryName')">
+						<HasError :form="form" field="name" />
+					</td>
+				</tr>
+				<tr>
+					<td class="text-right font-weight-bold">{{ $t('Phone') }}</td>
+					<td>
+						<input type="number" v-model="form.phone" v-mask="'###########'" class="form-control" :placeholder="$t('BeneficiaryPhone')">
+						<HasError :form="form" field="phone" />
+					</td>
+				</tr>
+				<tr>
 					<td class="text-right font-weight-bold">{{ $t('PreviousBenefit') }}</td>
 					<td>
 						<table class="table table-bordered">
@@ -54,7 +74,6 @@
 									<th>{{ $t('SL') }}</th>
 									<th>{{ $t('Date') }}</th>
 									<th>{{ $t('Project') }}</th>
-									<th>{{ $t('Ward') }}</th>
 									<th>{{ $t('Recommender') }}</th>
 								</tr>
 							</thead>
@@ -64,12 +83,11 @@
 										<td>{{ ++index }}</td>
 										<td>{{ project.date }}</td>
 										<td>{{ project.name }}</td>
-										<td>{{ project.ward }}</td>
 										<td>{{ project.recommender }}</td>
 									</tr>
 								</template>
 								<tr v-else>
-									<td class="text-center" colspan="5">{{ $t('NoPreviousProjectFound') }}</td>
+									<td class="text-center" colspan="4">{{ $t('NoPreviousProjectFound') }}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -104,11 +122,15 @@
 				form: new Form({
 					project_id: '',
 					recommender_id: '',
-					nid: ''
+					nid: '',
+					ward_id: '',
+					name: '',
+					phone: ''
 				}),
 				project: '',
 				projects: [],
 				benefits: [],
+				wards: [],
 				beneficiary: ''
 			}
 		},
@@ -135,49 +157,70 @@
 						nid: this.form.nid
 					}).then((res) => {
 						this.beneficiary = res.data;
+						this.form.name = res.data.beneficiary.name;
+						this.form.phone = res.data.beneficiary.phone;
+						this.form.ward_id = res.data.beneficiary.ward_id ?? this.form.ward_id;
 					}).catch((error) => console.log(error))
 				} else {
 					this.form.errors.errors = validation.errors.all();
 				}
 			},
 			async submit() {
-				await this.form.post('/api/project-beneficiaries').then((res) => {
-					let status = res.data.type;
-					if (status == 'done') {
-						this.successCreateMessage();
-						this.decline();
-					} else {
-						Swal.fire({
-							title: this.$t("confirmation"),
-							text: this.$t("confirm_duplicate_message"),
-							icon: "warning",
-							showCancelButton: true,
-							confirmButtonColor: "#3085d6",
-							cancelButtonColor: "#d33",
-							reverseButtons: true,
-							confirmButtonText: this.$t("DuplicatePermit"),
-							cancelButtonText: this.$t("cancel"),
-						}).then((result) => {
-							if (result.isConfirmed) {
-								this.form.post('/api/project-beneficiaries/duplicate').then((res) => {
-									this.successCreateMessage();
-									this.decline();
-								});
-							} else {
-								//this.decline();
-							}
-						})
-					}
-				}).catch((error) => console.log(error))
+				this.form.clear();
+				let validation = new Validator(this.form, {
+					project_id: 'required',
+					recommender_id: 'required',
+					ward_id: 'required',
+					nid: 'required|numeric|digits_between:10,13'
+				});
+				if (validation.passes()) {
+					await this.form.post('/api/project-beneficiaries').then((res) => {
+						let status = res.data.type;
+						if (status == 'done') {
+							this.successCreateMessage();
+							this.decline();
+						} else {
+							Swal.fire({
+								title: this.$t("confirmation"),
+								text: this.$t("confirm_duplicate_message"),
+								icon: "warning",
+								showCancelButton: true,
+								confirmButtonColor: "#3085d6",
+								cancelButtonColor: "#d33",
+								reverseButtons: true,
+								confirmButtonText: this.$t("DuplicatePermit"),
+								cancelButtonText: this.$t("cancel"),
+							}).then((result) => {
+								if (result.isConfirmed) {
+									this.form.post('/api/project-beneficiaries/duplicate').then((res) => {
+										this.successCreateMessage();
+										this.decline();
+									});
+								}
+							})
+						}
+					}).catch((error) => console.log(error))
+				} else {
+					this.form.errors.errors = validation.errors.all();
+				}
 			},
 			decline() {
+				//this.form.ward_id = '';
 				this.form.nid = '';
+				this.form.name = '';
+				this.form.phone = '';
 				this.benefits = [];
 				this.beneficiary = '';
+			},
+			loadWardList() {
+				axios.get('/api/load-ward-list').then((res) => {
+					this.wards = res.data;
+				});
 			}
 		},
 		created() {
 			this.loadActiveProject();
+			this.loadWardList();
 		},
 	}
 </script>

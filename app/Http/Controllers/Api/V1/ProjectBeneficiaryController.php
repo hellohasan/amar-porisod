@@ -49,6 +49,11 @@ class ProjectBeneficiaryController extends Controller
         $beneficiary = Beneficiary::whereNid($request->input('nid'))->first();
         $projects = [];
         if ($beneficiary) {
+            $res['beneficiary'] = [
+                'name'    => $beneficiary->name,
+                'phone'   => $beneficiary->phone,
+                'ward_id' => $beneficiary->ward_id,
+            ];
             $benefits = ProjectBeneficiary::with([
                 'project:id,name',
                 'recommender.user:id,name',
@@ -60,13 +65,17 @@ class ProjectBeneficiaryController extends Controller
                 $projects[] = [
                     'name'        => $benefit->project->name,
                     'date'        => $benefit->created_at->format('dS M, Y'),
-                    'recommender' => $benefit->recommender->user->name,
-                    'ward'        => $benefit->recommender->ward->name,
+                    'recommender' => '(' . $benefit->recommender->ward->name . ') ' . $benefit->recommender->user->name,
                 ];
             }
+        } else {
+            $res['beneficiary'] = [
+                'name'  => '',
+                'phone' => '',
+            ];
         }
 
-        $res = ['projects' => $projects];
+        $res['projects'] = $projects;
 
         return response()->json($res, 200);
     }
@@ -91,7 +100,8 @@ class ProjectBeneficiaryController extends Controller
             ->with([
                 'recommender.user:id,name',
                 'recommender.ward:id,name',
-                'beneficiary:id,name,nid,phone',
+                'beneficiary:id,name,nid,phone,ward_id',
+                'beneficiary.ward:id,name',
             ])
             ->orderBy('recommender_id', 'asc')
             ->get();
@@ -125,6 +135,7 @@ class ProjectBeneficiaryController extends Controller
         $request->validate([
             'project_id'     => 'required',
             'recommender_id' => 'required',
+            'ward_id'        => 'required',
             'nid'            => 'required|numeric|digits_between:10,13',
         ]);
 
@@ -152,10 +163,11 @@ class ProjectBeneficiaryController extends Controller
                 $res = ['type' => 'done'];
             }
         } else {
-            $recommender = Recommender::find($request->input('recommender_id'));
             $beneficiary = Beneficiary::create([
                 'nid'     => $request->input('nid'),
-                'ward_id' => $recommender->ward_id,
+                'name'    => $request->input('name'),
+                'phone'   => $request->input('phone'),
+                'ward_id' => $request->input('ward_id'),
             ]);
 
             $tt = ProjectBeneficiary::create([
@@ -180,6 +192,7 @@ class ProjectBeneficiaryController extends Controller
         $request->validate([
             'project_id'     => 'required',
             'recommender_id' => 'required',
+            'ward_id'        => 'required',
             'nid'            => 'required|numeric|digits_between:10,13',
         ]);
 
@@ -196,6 +209,43 @@ class ProjectBeneficiaryController extends Controller
         $tt->custom = $lastId ? $lastId->custom + 1 : custom(1, 5);
         $tt->save();
         $res = ['type' => 'done'];
+        return response()->json($res, 200);
+    }
+
+    /**
+     * @param $pId
+     * @param $rId
+     */
+    public function slips($pId, $rId)
+    {
+        $project = Project::findOrFail($pId);
+        $beneficiaries = ProjectBeneficiary::whereProjectId($project->id)
+            ->when($rId != 0, function ($query) use ($rId) {
+                $query->where('recommender_id', $rId);
+            })
+            ->with([
+                'recommender.user:id,name',
+                'recommender.ward:id,name',
+                'beneficiary:id,name,nid,phone,ward_id',
+                'beneficiary.ward:id,name',
+            ])
+            ->orderBy('recommender_id', 'asc')
+            ->get();
+
+        $res['name'] = $project->name;
+        $res['total'] = $beneficiaries->count();
+        $res['beneficiaries'] = $beneficiaries;
+        if ($rId) {
+            $rec = Recommender::with(['user:id,name', 'ward:id,name'])->findOrFail($rId);
+            $res['showWard'] = false;
+            $res['ward'] = $rec->ward->name;
+            $res['recommender'] = $rec->user->name;
+        } else {
+            $res['showWard'] = true;
+            $res['ward'] = __('AllWard');
+            $res['recommender'] = __('AllRecommender');
+        }
+
         return response()->json($res, 200);
     }
 

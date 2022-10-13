@@ -5,75 +5,77 @@
 			<div class="form-row">
 				<form-group-select col="col-md-12" @change="changeProject" :form="form" v-model="form.project_id" name="project_id" :options="projects" :label="$t('SelectProject')"></form-group-select>
 				<form-group-select col="col-md-12" :form="form" v-model="form.recommender_id" name="recommender_id" :options="recommenders" :label="$t('SelectRecommender')"></form-group-select>
+				<form-group-button col="col-md-6" :form="form" icon="fas fa-search">{{ $t('loadBeneficiaries') }}</form-group-button>
+				<div class="form-group col-md-6">
+					<button @click="printSlip" type="button" class="btn btn-success btn-block btn-lg text-uppercase font-weight-bold"><i class="fas fa-receipt"></i> {{ $t('PrintSlip') }}</button>
+				</div>
 			</div>
-			<button type="submit" :disabled="form.busy" class="btn btn-primary btn-lg btn-block"><i class="fas fa-search"></i> {{ $t('loadBeneficiaries') }}</button>
 		</form>
 		<hr>
-		<!-- <template v-if="beneficiaries.length"> -->
-		<div id="printMe" ref="printMe">
-			<Pad></Pad>
-			<table class="table table-bordered table-striped" style="margin-top:-25px">
-				<thead>
-					<tr>
-						<th width="50%" class="text-right">{{ $t('Title') }}</th>
-						<th>{{ $t('Description') }}</th>
-					</tr>
-					<tr>
-						<td class="text-right">{{ $t('ProjectName') }}</td>
-						<td>{{ info.name }}</td>
-					</tr>
-					<tr>
-						<td class="text-right">{{ $t('TotalApprove') }}</td>
-						<td>{{ info.total | numberConversion | persons }}</td>
-					</tr>
-					<tr>
-						<td class="text-right">{{ $t('WardNumber') }}</td>
-						<td>{{ info.ward }}</td>
-					</tr>
-					<tr>
-						<td class="text-right">{{ $t('Recommender') }}</td>
-						<td>{{ info.recommender }}</td>
-					</tr>
-				</thead>
-			</table>
-			<table class="table table-bordered table-striped">
-				<thead>
-					<tr>
-						<th>{{ $t('SL') }}</th>
-						<th>{{ $t('Custom') }}</th>
-						<th>{{ $t('NID') }}</th>
-						<th>{{ $t('Details') }}</th>
-						<template v-if="info.showWard">
-							<th>{{ $t('Ward') }}</th>
-							<th>{{ $t('Recommender') }}</th>
-						</template>
-						<th class="noprint" data-html2canvas-ignore>{{ $t('Action') }}</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="(beneficiary,index) in info.beneficiaries" :key="index">
-						<td>{{ ++index | numberConversion }}</td>
-						<td>{{ beneficiary.custom | numberConversion }}</td>
-						<td>{{ beneficiary.beneficiary.nid | numberConversion }}</td>
-						<td>{{ beneficiary.beneficiary.name }} <br>{{ beneficiary.beneficiary.phone }}</td>
-						<template v-if="info.showWard">
-							<td>{{ beneficiary.recommender.ward.name }}</td>
-							<td>{{ beneficiary.recommender.user.name }}</td>
-						</template>
-						<td class="noprint" data-html2canvas-ignore>
-							<button class="btn btn-danger btn-sm" @click.prevent="deleteList(beneficiary.id)"><i class="fas fa-times"></i> {{ $t('cancel') }}</button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="d-flex justify-content-end">
-			<button @click="saveToPDF" type="button" class="btn btn-secondary"><i class="fas fa-file-pdf"></i> {{ $t('PDF') }}</button>&nbsp;
-			<button @click="printToPaper" type="button" class="btn btn-primary"><i class="fas fa-print"></i> {{ $t('Print') }}</button>
-		</div>
-
-		<!-- </template>
-		<template v-else></template> -->
+		<template v-if="info">
+			<div id="printMe" ref="printMe">
+				<Pad></Pad>
+				<table class="table table-bordered table-striped" style="margin-top:-25px">
+					<thead>
+						<tr>
+							<th width="50%" class="text-right">{{ $t('Title') }}</th>
+							<th>{{ $t('Description') }}</th>
+						</tr>
+						<tr>
+							<td class="text-right">{{ $t('ProjectName') }}</td>
+							<td>{{ info.name }}</td>
+						</tr>
+						<tr>
+							<td class="text-right">{{ $t('TotalApprove') }}</td>
+							<td>{{ info.total | numberConversion | persons }}</td>
+						</tr>
+						<tr>
+							<td class="text-right">{{ $t('WardNumber') }}</td>
+							<td>{{ info.ward }}</td>
+						</tr>
+						<tr>
+							<td class="text-right">{{ $t('Recommender') }}</td>
+							<td>{{ info.recommender }}</td>
+						</tr>
+					</thead>
+				</table>
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>{{ $t('SL') }}</th>
+							<th>{{ $t('Custom') }}</th>
+							<th>{{ $t('NID') }}</th>
+							<th>{{ $t('Details') }}</th>
+							<th>{{ $t('WardNumber') }}</th>
+							<template v-if="info.showWard">
+								<th>{{ $t('Recommender') }}</th>
+							</template>
+							<th class="noprint" data-html2canvas-ignore>{{ $t('Action') }}</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="(beneficiary,index) in info.beneficiaries" :key="index">
+							<td>{{ ++index | numberConversion }}</td>
+							<td>{{ beneficiary.custom | numberConversion }}</td>
+							<td>{{ beneficiary.beneficiary.nid | numberConversion }}</td>
+							<td>{{ beneficiary.beneficiary.name }} <br>{{ beneficiary.beneficiary.phone }}</td>
+							<td>{{ beneficiary.beneficiary.ward.name }}</td>
+							<template v-if="info.showWard">
+								<td>{{ beneficiary.recommender.user.name }}</td>
+							</template>
+							<td class="noprint" data-html2canvas-ignore>
+								<button v-permission="['project-beneficiaries-destroy']" class="btn btn-danger btn-sm" @click.prevent="deleteList(beneficiary.id)"><i class="fas fa-times"></i> {{ $t('cancel') }}</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="d-flex justify-content-end">
+				<button @click="saveToPDF" type="button" class="btn btn-secondary"><i class="fas fa-file-pdf"></i> {{ $t('PDF') }}</button>&nbsp;
+				<button @click="printToPaper" type="button" class="btn btn-primary"><i class="fas fa-print"></i> {{ $t('Print') }}</button>
+			</div>
+		</template>
+		<template v-else></template>
 
 	</custom-card>
 </template>
@@ -100,6 +102,9 @@
 			}
 		},
 		methods: {
+			async printSlip() {
+				this.$router.push({ path: '/project-beneficiaries/slip', query: { project_id: this.form.project_id, recommender_id: this.form.recommender_id } });
+			},
 			async saveToPDF() {
 				let docName = `${this.info?.name} - (${this.info?.ward}) - ${this.info?.recommender}.pdf`
 				await html2pdf(this.$refs.printMe, pdfOptions(docName));

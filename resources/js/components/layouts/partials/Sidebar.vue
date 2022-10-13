@@ -28,6 +28,13 @@
 						</router-link>
 					</li>
 
+					<li class="nav-item" v-permission="['search-beneficiary']">
+						<router-link :to="{name:'search-beneficiary'}" class="nav-link">
+							<i class="nav-icon fas fa-search cyan"></i>
+							<p>{{ $t('SearchBeneficiary') }}</p>
+						</router-link>
+					</li>
+
 					<!-- Project Setting -->
 					<Project></Project>
 
@@ -37,37 +44,11 @@
 					<!-- Settings Section -->
 					<li v-role="['Super Admin','Admin','Register']" class="nav-header">{{ $t('GeneralSettings') }}</li>
 
-					<li v-role="['Super Admin']" class="nav-item">
-						<a href="#" class="nav-link">
-							<i class="nav-icon fas fa-cogs"></i>
-							<p>{{ $t('GeneralSettings') }}<i class="right fas fa-angle-left"></i></p>
-						</a>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<router-link :to="{name:'basic-setting'}" class="nav-link">
-									<i class="fas fa-cog nav-icon"></i>
-									<p>{{ $t('BasicSetting') }}</p>
-								</router-link>
-							</li>
-							<li class="nav-item">
-								<a href="#" class="nav-link">
-									<i class="fas fa-image nav-icon"></i>
-									<p>{{ $t('LogoFavicon') }}</p>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a href="#" class="nav-link">
-									<i class="fas fa-envelope-open nav-icon"></i>
-									<p>{{ $t('EmailSetting') }}</p>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a href="#" class="nav-link">
-									<i class="far fa-comment-alt nav-icon"></i>
-									<p>{{ $t('SmsSetting') }}</p>
-								</a>
-							</li>
-						</ul>
+					<li class="nav-item" v-role="['Super Admin']">
+						<router-link :to="{name:'basic-setting'}" class="nav-link">
+							<i class="nav-icon fas fa-cog cyan"></i>
+							<p>{{ $t('BasicSetting') }}</p>
+						</router-link>
 					</li>
 					<li v-role="['Super Admin','Admin']" class="nav-item">
 						<router-link :to="{name:'users'}" class="nav-link">
@@ -95,7 +76,6 @@
 							</li>
 						</ul>
 					</li>
-
 					<li class="nav-item">
 						<router-link :to="{name:'profile'}" class="nav-link">
 							<i class="nav-icon far fa-user"></i>

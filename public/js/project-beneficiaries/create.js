@@ -115,6 +115,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -129,11 +147,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       form: new Form({
         project_id: '',
         recommender_id: '',
-        nid: ''
+        nid: '',
+        ward_id: '',
+        name: '',
+        phone: ''
       }),
       project: '',
       projects: [],
       benefits: [],
+      wards: [],
       beneficiary: ''
     };
   },
@@ -201,7 +223,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   axios.post("/api/project-beneficiaries/search", {
                     nid: _this3.form.nid
                   }).then(function (res) {
+                    var _res$data$beneficiary;
+
                     _this3.beneficiary = res.data;
+                    _this3.form.name = res.data.beneficiary.name;
+                    _this3.form.phone = res.data.beneficiary.phone;
+                    _this3.form.ward_id = (_res$data$beneficiary = res.data.beneficiary.ward_id) !== null && _res$data$beneficiary !== void 0 ? _res$data$beneficiary : _this3.form.ward_id;
                   })["catch"](function (error) {
                     return console.log(error);
                   });
@@ -221,11 +248,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var validation;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _context4.next = 2;
+                _this4.form.clear();
+
+                validation = new validatorjs__WEBPACK_IMPORTED_MODULE_3__(_this4.form, {
+                  project_id: 'required',
+                  recommender_id: 'required',
+                  ward_id: 'required',
+                  nid: 'required|numeric|digits_between:10,13'
+                });
+
+                if (!validation.passes()) {
+                  _context4.next = 7;
+                  break;
+                }
+
+                _context4.next = 5;
                 return _this4.form.post('/api/project-beneficiaries').then(function (res) {
                   var status = res.data.type;
 
@@ -251,7 +293,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                           _this4.decline();
                         });
-                      } else {//this.decline();
                       }
                     });
                   }
@@ -259,7 +300,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return console.log(error);
                 });
 
-              case 2:
+              case 5:
+                _context4.next = 8;
+                break;
+
+              case 7:
+                _this4.form.errors.errors = validation.errors.all();
+
+              case 8:
               case "end":
                 return _context4.stop();
             }
@@ -268,13 +316,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     decline: function decline() {
+      //this.form.ward_id = '';
       this.form.nid = '';
+      this.form.name = '';
+      this.form.phone = '';
       this.benefits = [];
       this.beneficiary = '';
+    },
+    loadWardList: function loadWardList() {
+      var _this5 = this;
+
+      axios.get('/api/load-ward-list').then(function (res) {
+        _this5.wards = res.data;
+      });
     }
   },
   created: function created() {
     this.loadActiveProject();
+    this.loadWardList();
   }
 });
 
@@ -897,6 +956,117 @@ var render = function () {
             _vm._v(" "),
             _c("tr", [
               _c("td", { staticClass: "text-right font-weight-bold" }, [
+                _vm._v(_vm._s(_vm.$t("WardNumber"))),
+              ]),
+              _vm._v(" "),
+              _c(
+                "td",
+                [
+                  _c("custom-select", {
+                    attrs: {
+                      form: _vm.form,
+                      name: "ward_id",
+                      options: _vm.wards,
+                    },
+                    model: {
+                      value: _vm.form.ward_id,
+                      callback: function ($$v) {
+                        _vm.$set(_vm.form, "ward_id", $$v)
+                      },
+                      expression: "form.ward_id",
+                    },
+                  }),
+                ],
+                1
+              ),
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", { staticClass: "text-right font-weight-bold" }, [
+                _vm._v(_vm._s(_vm.$t("Name"))),
+              ]),
+              _vm._v(" "),
+              _c(
+                "td",
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.name,
+                        expression: "form.name",
+                      },
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      placeholder: _vm.$t("BeneficiaryName"),
+                    },
+                    domProps: { value: _vm.form.name },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "name", $event.target.value)
+                      },
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c("HasError", { attrs: { form: _vm.form, field: "name" } }),
+                ],
+                1
+              ),
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", { staticClass: "text-right font-weight-bold" }, [
+                _vm._v(_vm._s(_vm.$t("Phone"))),
+              ]),
+              _vm._v(" "),
+              _c(
+                "td",
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.phone,
+                        expression: "form.phone",
+                      },
+                      {
+                        name: "mask",
+                        rawName: "v-mask",
+                        value: "###########",
+                        expression: "'###########'",
+                      },
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "number",
+                      placeholder: _vm.$t("BeneficiaryPhone"),
+                    },
+                    domProps: { value: _vm.form.phone },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "phone", $event.target.value)
+                      },
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c("HasError", { attrs: { form: _vm.form, field: "phone" } }),
+                ],
+                1
+              ),
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", { staticClass: "text-right font-weight-bold" }, [
                 _vm._v(_vm._s(_vm.$t("PreviousBenefit"))),
               ]),
               _vm._v(" "),
@@ -909,8 +1079,6 @@ var render = function () {
                       _c("th", [_vm._v(_vm._s(_vm.$t("Date")))]),
                       _vm._v(" "),
                       _c("th", [_vm._v(_vm._s(_vm.$t("Project")))]),
-                      _vm._v(" "),
-                      _c("th", [_vm._v(_vm._s(_vm.$t("Ward")))]),
                       _vm._v(" "),
                       _c("th", [_vm._v(_vm._s(_vm.$t("Recommender")))]),
                     ]),
@@ -931,8 +1099,6 @@ var render = function () {
                                     _vm._v(" "),
                                     _c("td", [_vm._v(_vm._s(project.name))]),
                                     _vm._v(" "),
-                                    _c("td", [_vm._v(_vm._s(project.ward))]),
-                                    _vm._v(" "),
                                     _c("td", [
                                       _vm._v(_vm._s(project.recommender)),
                                     ]),
@@ -944,7 +1110,7 @@ var render = function () {
                                   "td",
                                   {
                                     staticClass: "text-center",
-                                    attrs: { colspan: "5" },
+                                    attrs: { colspan: "4" },
                                   },
                                   [
                                     _vm._v(

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Beneficiary;
+use App\Models\ProjectBeneficiary;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -140,8 +141,49 @@ class BeneficiaryController extends Controller
     public function destroy($id)
     {
         $beneficiary = Beneficiary::findOrFail($id);
-        /* ALERT: Take decision when delete beneficiary */
+        ProjectBeneficiary::whereBeneficiaryId($id)->delete();
         $beneficiary->delete();
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function search(Request $request)
+    {
+        $request->validate([
+            'search' => 'required|digits_between:10,13',
+        ]);
+
+        $search = $request->input('search');
+
+        $beneficiary = Beneficiary::query()
+            ->with('ward:id,name')
+            ->where('nid', 'LIKE', "%{$search}%")
+            ->orWhere('phone', 'LIKE', "%{$search}%")
+            ->first();
+        $res['beneficiary'] = $beneficiary;
+
+        $projects = [];
+        if ($beneficiary) {
+            $benefits = ProjectBeneficiary::with([
+                'project:id,name',
+                'recommender.user:id,name',
+                'recommender.ward:id,name',
+            ])->whereBeneficiaryId($beneficiary->id)
+                ->orderByDesc('id')
+                ->get();
+            foreach ($benefits as $benefit) {
+                $projects[] = [
+                    'name'        => $benefit->project->name,
+                    'date'        => $benefit->created_at->format('dS M, Y'),
+                    'recommender' => '(' . $benefit->recommender->ward->name . ') ' . $benefit->recommender->user->name,
+                ];
+            }
+        }
+
+        $res['projects'] = $projects;
+
+        return response()->json($res, 200);
 
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\ProjectBeneficiary;
 use App\Models\ProjectRecommender;
 use Illuminate\Http\Request;
 
@@ -106,7 +107,10 @@ class ProjectController extends Controller
         $oldRecommenders = $project->recommenders->pluck('recommender_id')->toArray();
         $newRecommenders = $request->input('recommenders');
         $differentId = array_diff($oldRecommenders, $newRecommenders);
+        
         ProjectRecommender::whereProjectId($project->id)->whereIn('recommender_id', $differentId)->delete();
+        ProjectBeneficiary::whereProjectId($project->id)->whereIn('recommender_id', $differentId)->delete();
+
         foreach ($request->recommenders as $recommender) {
             ProjectRecommender::whereProjectId($project->id)->updateOrCreate(
                 ['recommender_id'=> $recommender],
@@ -115,7 +119,6 @@ class ProjectController extends Controller
                 ],
             );
         }
-        // ALERT take action when project recommender delete;
         return response()->json(['message' => 'done'], 200);
     }
 
@@ -128,6 +131,7 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         $project = Project::findOrFail($id);
+        $project->beneficiaries()->delete();
         $project->recommenders()->delete();
         $project->delete();
     }
