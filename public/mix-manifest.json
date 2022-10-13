@@ -4,7 +4,7 @@
     "/js/dashboard/search-beneficiary.js": "/js/dashboard/search-beneficiary.js",
     "/js/dashboard/users.js": "/js/dashboard/users.js",
     "/js/dashboard/profile.js": "/js/dashboard/profile.js",
-    "/js/project-beneficiaries.js": "/js/project-beneficiaries.js",
+    "/js/project-beneficiaries/project-beneficiaries.js": "/js/project-beneficiaries/project-beneficiaries.js",
     "/js/project-beneficiaries/index.js": "/js/project-beneficiaries/index.js",
     "/js/project-beneficiaries/create.js": "/js/project-beneficiaries/create.js",
     "/js/project-beneficiaries/slip.js": "/js/project-beneficiaries/slip.js",

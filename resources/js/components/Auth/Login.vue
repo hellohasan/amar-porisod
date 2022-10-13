@@ -73,8 +73,8 @@
 		data() {
 			return {
 				form: {
-					email: 'super-admin@gmail.com',
-					password: '123456',
+					email: '',
+					password: '',
 					recaptcha: '',
 				},
 				errors: {

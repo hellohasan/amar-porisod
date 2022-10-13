@@ -4,7 +4,7 @@ export default [
     path: "/project-beneficiaries",
     component: () =>
       import(
-        /*webpackChunkName: "project-beneficiaries"*/ "../../components/Apps/ProjectBeneficiary/ProjectBeneficiary.vue"
+        /*webpackChunkName: "project-beneficiaries/project-beneficiaries"*/ "../../components/Apps/ProjectBeneficiary/ProjectBeneficiary.vue"
       ),
     meta: { requireAuth: true },
     children: [

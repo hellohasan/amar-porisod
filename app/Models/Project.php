@@ -23,6 +23,10 @@ class Project extends Model
         'name', 'date', 'total', 'status',
     ];
 
+    protected $casts = [
+        'status' => 'boolean'
+    ];
+
     /**
      * Get all of the recommenders for the Project
      *
