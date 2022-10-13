@@ -1,6 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
     "/js/dashboard/dashboard.js": "/js/dashboard/dashboard.js",
+    "/js/dashboard/search-beneficiary.js": "/js/dashboard/search-beneficiary.js",
     "/js/dashboard/users.js": "/js/dashboard/users.js",
     "/js/dashboard/profile.js": "/js/dashboard/profile.js",
     "/js/project-beneficiaries.js": "/js/project-beneficiaries.js",
@@ -8,6 +9,5 @@
     "/js/project-beneficiaries/create.js": "/js/project-beneficiaries/create.js",
     "/js/project-beneficiaries/slip.js": "/js/project-beneficiaries/slip.js",
     "/js/settings/basic-setting.js": "/js/settings/basic-setting.js",
-    "/css/app.css": "/css/app.css",
-    "/js/dashboard/search-beneficiary.js": "/js/dashboard/search-beneficiary.js"
+    "/css/app.css": "/css/app.css"
 }
